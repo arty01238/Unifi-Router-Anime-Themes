@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="198" height="28" viewBox="0 0 198 28" role="img" aria-label="Jane Doe palette">
+  <rect x="0" y="0" width="28" height="28" rx="4" fill="#100E14"/>
+  <rect x="34" y="0" width="28" height="28" rx="4" fill="#1A1522"/>
+  <rect x="68" y="0" width="28" height="28" rx="4" fill="#B07CFF"/>
+  <rect x="102" y="0" width="28" height="28" rx="4" fill="#E2B657"/>
+  <rect x="136" y="0" width="28" height="28" rx="4" fill="#FF7AB6"/>
+  <rect x="170" y="0" width="28" height="28" rx="4" fill="#F7F3EC"/>
+</svg>

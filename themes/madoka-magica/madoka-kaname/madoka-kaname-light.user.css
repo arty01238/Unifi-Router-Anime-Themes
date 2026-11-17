@@ -1,0 +1,569 @@
+/* ==UserStyle==
+@name         Madoka Kaname (Light) — UniFi OS
+@namespace    https://github.com/arty01238/Unifi-Router-Anime-Themes
+@version      1.0.0
+@description  Soft pink, white, and light-gold UniFi OS theme with a ribbon and petal edge, inspired by Madoka Kaname. Light variant. Browser-only. Unofficial fan work; does not modify the router.
+@author       arty01238 (https://github.com/arty01238)
+@homepageURL  https://github.com/arty01238/Unifi-Router-Anime-Themes
+@supportURL   https://github.com/arty01238/Unifi-Router-Anime-Themes/issues
+@updateURL    https://raw.githubusercontent.com/arty01238/Unifi-Router-Anime-Themes/main/themes/madoka-magica/madoka-kaname/madoka-kaname-light.user.css
+@license      MIT
+@preprocessor uso
+@var text console-host "Local console host or IP\nHostname or IP only. No https:// and no port. unifi.ui.com is always matched." 192.168.1.1
+@var text console-host-2 "Second host or IP\nAnother hostname or IP. Repeat the first value if you only use one." 192.168.1.1
+@var text background-image "Background image\nDefault is official art hosted by the rights holder, not a file in this repo. Set none to hide it, or url('https://...') to use your own image." "url('https://www.madoka-magica.com/tv/assets/img/character/chara_img_madoka02.png')"
+@var range background-dim "Background dim" [0.06, 0, 0.85, 0.01]
+@var range background-blur "Background blur" [0, 0, 40, 1, "px"]
+@var range panel-opacity "Panel opacity" [0.94, 0.4, 1, 0.01]
+@var checkbox show-motif "Decorative motif" 1
+@var color background "Background" #FFF6F9
+@var color background-2 "Background gradient" #FFE0EC
+@var color surface "Panels" #FFFFFF
+@var color surface-raised "Raised panels" #FFF0F6
+@var color border "Borders" #F0C3D4
+@var color text "Text" #4C2434
+@var color text-muted "Muted text" #8E5A6C
+@var color accent "Accent" #F06292
+@var color accent-2 "Secondary accent" #D7A441
+@var color highlight "Highlight" #FFFDF8
+@var color on-accent "Text on accent" #3F1826
+@var color dim-color "Dim color" #6A3044
+==/UserStyle== */
+
+/*
+ * Madoka Kaname (Light) — UniFi OS
+ * Generated from src/base.css and src/themes.mjs. Edit those and run npm run build.
+ * Unofficial fan theme. Does not modify the router. Characters belong to their owners.
+ * Petals and ribbon: A scalloped pink edge runs across the top. The corner holds a cluster of plain circles (a generic flower) and two ellipse strokes that read as a ribbon bow. This is not the soul gem, the series logo, or any official illustration.
+ */
+@-moz-document domain("unifi.ui.com"),
+               domain("/*[[console-host]]*/"),
+               domain("/*[[console-host-2]]*/") {
+  /*
+   * Shared UniFi OS canvas. Generated into each .user.css by scripts/build.mjs.
+   *
+   * How styling is applied, and what was actually verified:
+   *
+   * 1. Legacy design tokens. A public 2019 Stylus/CSS gist (tkuennen,
+   *    "UniFi-Dark.css") lists the Angular-era UniFi Network custom properties:
+   *    --ubnt-color-*, --main-panel-background-color, --navigation-*,
+   *    --button-primary-*, --modal-*, --table-*, and the related component
+   *    tokens. Those names are overridden here. Views that still read them
+   *    follow the palette. Icon url() tokens from that gist are intentionally
+   *    not touched, so checkmarks and search icons are not blanked out.
+   * 2. Semantic HTML and ARIA: html, body, #root, #app, main, nav, header,
+   *    dialog, table, form controls, [role="navigation"], [role="dialog"],
+   *    [aria-selected], [aria-current].
+   * 3. Partial class fragments that survive CSS-module hashing when the
+   *    component name is still in the class string (sidebar, navigation,
+   *    header, card, panel, modal, dropdown, and the legacy class names
+   *    .modular, .appTable, .appButton--primary). A 2021 community note
+   *    showed surfaces whose class contained "light". A Network 8.x report
+   *    showed hashed classes shaped like css-network-<hash> with a literal
+   *    background color; those hashes cannot be targeted and will stay stock.
+   * 4. html/body wallpaper, a top motif, scrollbars, selection, and accent-color
+   *    on native checkboxes, radios, and ranges.
+   *
+   * Not verified on a live Dream Machine. UniFi OS updates can rename markup.
+   * Shadow DOM, canvas charts, maps, and author inline !important styles can
+   * ignore this file. Report breakage with the UniFi OS version.
+   */
+
+  html {
+    min-height: 100%;
+    background-color: /*[[background]]*/ !important;
+    color-scheme: light !important;
+    color: /*[[text]]*/;
+  }
+
+  /* Photo and base gradient. Kept off the content stack so blur cannot smear the UI. */
+  html::before {
+    content: "";
+    position: fixed;
+    z-index: -1;
+    inset: -80px;
+    pointer-events: none;
+    background-color: /*[[background]]*/;
+    background-image:
+      linear-gradient(
+        color-mix(in srgb, /*[[dim-color]]*/ calc(/*[[background-dim]]*/ * 100%), transparent),
+        color-mix(in srgb, /*[[dim-color]]*/ calc(/*[[background-dim]]*/ * 100%), transparent)
+      ),
+      /*[[background-image]]*/,
+      linear-gradient(165deg, /*[[background-2]]*/, /*[[background]]*/);
+    background-size: auto, cover, auto;
+    background-position: center, center, center;
+    background-repeat: no-repeat;
+    filter: blur(/*[[background-blur]]*/);
+  }
+
+  body {
+    min-height: 100%;
+    position: relative !important;
+    z-index: 0 !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    color: /*[[text]]*/ !important;
+  }
+
+  /* Character motif. Opacity is the Decorative motif switch (1 or 0). */
+  body::before {
+    content: "";
+    position: fixed;
+    z-index: -1;
+    inset: -80px;
+    pointer-events: none;
+    opacity: /*[[show-motif]]*/;
+    background-image: radial-gradient(circle at 9% 86%, color-mix(in srgb, /*[[accent]]*/ 55%, transparent) 0 22px, transparent 23px),
+      radial-gradient(circle at 14% 78%, color-mix(in srgb, /*[[accent]]*/ 40%, transparent) 0 30px, transparent 31px),
+      radial-gradient(circle at 4% 76%, color-mix(in srgb, /*[[accent-2]]*/ 70%, transparent) 0 16px, transparent 17px),
+      radial-gradient(circle at 18% 90%, color-mix(in srgb, /*[[accent]]*/ 35%, transparent) 0 18px, transparent 19px),
+      radial-gradient(ellipse 120px 36px at 20% 82%, transparent 58%, color-mix(in srgb, /*[[accent-2]]*/ 80%, transparent) 60% 68%, transparent 70%),
+      radial-gradient(ellipse 120px 36px at 1% 82%, transparent 58%, color-mix(in srgb, /*[[accent]]*/ 55%, transparent) 60% 68%, transparent 70%);
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: blur(/*[[background-blur]]*/);
+  }
+
+  /* Top-edge motif. Clicks pass through. */
+  body::after {
+    content: "";
+    position: fixed;
+    z-index: 2147483646;
+    pointer-events: none;
+    opacity: /*[[show-motif]]*/;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 18px;
+    background-image: radial-gradient(circle at 14px 18px, /*[[accent]]*/ 9px, transparent 10px);
+    background-size: 32px 18px;
+    background-repeat: repeat-x;
+  }
+
+  /*
+   * Known UniFi tokens. Applied on the shells we can name so a wrapper that
+   * redeclares :root tokens still inherits the theme, while a nested author
+   * rule can still paint a one-off status color. body * carries the same
+   * tokens with !important because the React shell often redefines them on
+   * an inner theme node. That also flattens local uses of these exact names.
+   */
+  html,
+  body,
+  #root,
+  #app,
+  body * {
+    --ubnt-color-text-primary: /*[[text]]*/ !important;
+    --ubnt-color-text-secondary: /*[[text-muted]]*/ !important;
+    --ubnt-color-text-tertiary: /*[[text-muted]]*/ !important;
+    --ubnt-color-background-primary: /*[[background]]*/ !important;
+    --ubnt-color-background-secondary: /*[[surface]]*/ !important;
+    --ubnt-color-background-tertiary: /*[[surface-raised]]*/ !important;
+    --ubnt-color-border-primary: /*[[border]]*/ !important;
+    --ubnt-color-border-secondary: /*[[border]]*/ !important;
+    --ubnt-color-border-tertiary: /*[[border]]*/ !important;
+    --main-panel-background-color: transparent !important;
+    --navigation-background-color: /*[[surface]]*/ !important;
+    --navigation-icon-color: /*[[text-muted]]*/ !important;
+    --navigation-selected-icon-color: /*[[accent]]*/ !important;
+    --navigation-spacer-color: /*[[border]]*/ !important;
+    --header-panel-background-color: /*[[surface]]*/ !important;
+    --header-panel-border-color: /*[[border]]*/ !important;
+    --header-panel-font-color: /*[[text]]*/ !important;
+    --header-panel-global-background-color: /*[[surface-raised]]*/ !important;
+    --header-panel-global-font-color: /*[[text]]*/ !important;
+    --header-panel-tertiary-background-color: /*[[surface]]*/ !important;
+    --footer-panel-background-color: /*[[surface]]*/ !important;
+    --footer-panel-border-color: /*[[border]]*/ !important;
+    --footer-panel-font-color: /*[[text-muted]]*/ !important;
+    --side-panel-background-color: /*[[surface]]*/ !important;
+    --side-panel-border-color: /*[[border]]*/ !important;
+    --side-panel-font-color: /*[[text]]*/ !important;
+    --side-panel-sub-navigation-background-color: /*[[background]]*/ !important;
+    --button-primary-font-color: /*[[on-accent]]*/ !important;
+    --button-primary-background-color: /*[[accent]]*/ !important;
+    --button-primary-hover-background-color: color-mix(in srgb, /*[[accent]]*/ 84%, white) !important;
+    --button-primary-active-background-color: color-mix(in srgb, /*[[accent]]*/ 78%, black) !important;
+    --button-secondary-font-color: /*[[text]]*/ !important;
+    --button-secondary-background-color: /*[[surface-raised]]*/ !important;
+    --button-secondary-border-color: /*[[border]]*/ !important;
+    --button-secondary-hover-border-color: /*[[accent]]*/ !important;
+    --button-icon-color: /*[[text-muted]]*/ !important;
+    --button-hover-icon-color: /*[[text]]*/ !important;
+    --button-active-icon-color: /*[[accent]]*/ !important;
+    --dropdown-background-color: /*[[surface-raised]]*/ !important;
+    --dropdown-border-color: /*[[border]]*/ !important;
+    --dropdown-font-color: /*[[text]]*/ !important;
+    --dropdown-hover-font-color: /*[[accent]]*/ !important;
+    --modal-background-color: /*[[surface-raised]]*/ !important;
+    --modal-border-color: /*[[border]]*/ !important;
+    --modal-font-color: /*[[text]]*/ !important;
+    --modal-header-font-color: /*[[text]]*/ !important;
+    --modal-footer-font-color: /*[[text-muted]]*/ !important;
+    --popover-background-color: /*[[surface-raised]]*/ !important;
+    --popover-border-color: /*[[border]]*/ !important;
+    --popover-font-color: /*[[text]]*/ !important;
+    --popover-header-font-color: /*[[text]]*/ !important;
+    --tooltip-background-color: /*[[surface-raised]]*/ !important;
+    --tooltip-border-color: /*[[border]]*/ !important;
+    --tooltip-font-color: /*[[text]]*/ !important;
+    --card-title-color: /*[[text]]*/ !important;
+    --table-font-color: /*[[text]]*/ !important;
+    --table-header-font-color: /*[[text]]*/ !important;
+    --table-row-hover-background-color: color-mix(in srgb, /*[[accent]]*/ 16%, /*[[surface]]*/) !important;
+    --table-row-selected-background-color: color-mix(in srgb, /*[[accent]]*/ 24%, /*[[surface]]*/) !important;
+    --table-body-cell-border-color: /*[[border]]*/ !important;
+    --table-body-cell-font-color: /*[[text]]*/ !important;
+    --table-header-background-color: /*[[surface-raised]]*/ !important;
+    --tab-item-font-color: /*[[text-muted]]*/ !important;
+    --tab-item-selected-font-color: /*[[accent]]*/ !important;
+    --tab-item-hover-border-color: /*[[accent]]*/ !important;
+    --toggle-background-on-color: /*[[accent]]*/ !important;
+    --toggle-button-on-color: /*[[on-accent]]*/ !important;
+    --toggle-background-off-color: /*[[border]]*/ !important;
+    --toggle-button-off-color: /*[[text]]*/ !important;
+    --block-title-font-color: /*[[text]]*/ !important;
+    --block-section-font-color: /*[[text-muted]]*/ !important;
+    --block-row-font-color: /*[[text-muted]]*/ !important;
+    --block-row-divider-color: /*[[border]]*/ !important;
+    --block-hover-box-shadow: 0 0 0 1px /*[[accent]]*/ !important;
+    --block-selected-background-color: color-mix(in srgb, /*[[accent]]*/ 22%, transparent) !important;
+    --block-selected-border-color: /*[[accent]]*/ !important;
+    --chip-background-color: /*[[surface-raised]]*/ !important;
+    --chip-font-color: /*[[text]]*/ !important;
+    --toast-background-color: /*[[surface-raised]]*/ !important;
+    --toast-border-color: /*[[border]]*/ !important;
+    --toast-title-font-color: /*[[text]]*/ !important;
+    --toast-details-font-color: /*[[text-muted]]*/ !important;
+    --form-box-font-color: /*[[text]]*/ !important;
+    --form-box-border-color: /*[[border]]*/ !important;
+    --form-box-focus-font-color: /*[[text]]*/ !important;
+    --form-secondary-box-background-color: /*[[surface]]*/ !important;
+    --form-secondary-box-font-color: /*[[text]]*/ !important;
+    --form-select-font-color: /*[[text]]*/ !important;
+    --form-select-border-color: /*[[border]]*/ !important;
+    --label-primary-font-color: /*[[text]]*/ !important;
+    --label-secondary-font-color: /*[[text-muted]]*/ !important;
+    --header-action-color: /*[[text-muted]]*/ !important;
+    --icon-actionable-color: /*[[text-muted]]*/ !important;
+    --icon-actionable-hover-color: /*[[accent]]*/ !important;
+    --icon-text-color: /*[[text-muted]]*/ !important;
+    --icon-text-text-color: /*[[text-muted]]*/ !important;
+    --icon-text-header-text-color: /*[[text]]*/ !important;
+    --accordion-border-color: /*[[border]]*/ !important;
+    --status-bar-background-color: /*[[surface-raised]]*/ !important;
+    --filter-item-font-color: /*[[text]]*/ !important;
+  }
+
+  /* Let the wallpaper show through the app shell. Opaque cards are restated below. */
+  #root,
+  #app,
+  body > div:first-child,
+  main,
+  [role="main"] {
+    background-color: transparent !important;
+    background-image: none !important;
+    color: /*[[text]]*/;
+  }
+
+  nav,
+  aside,
+  header,
+  footer,
+  [role="navigation"],
+  [role="banner"],
+  [class*="sidebar" i],
+  [class*="sidenav" i],
+  [class*="side-nav" i],
+  [class*="navigation" i],
+  [class*="navbar" i],
+  [class*="nav-bar" i],
+  [class*="topbar" i],
+  [class*="top-bar" i],
+  [class*="toolbar" i],
+  [class*="shell" i] {
+    background-color: color-mix(in srgb, /*[[surface]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
+    color: /*[[text]]*/;
+    border-color: /*[[border]]*/;
+  }
+
+  [class*="header" i],
+  [class*="layout" i] {
+    color: /*[[text]]*/;
+    border-color: /*[[border]]*/;
+  }
+
+  [class*="card" i],
+  [class*="panel" i],
+  [class*="widget" i],
+  [class*="tile" i],
+  [class*="sheet" i],
+  [class*="drawer" i],
+  [class*="modal" i],
+  [class*="dialog" i],
+  [class*="dropdown" i],
+  [class*="popover" i],
+  [class*="tooltip" i],
+  [class*="table" i],
+  [role="dialog"],
+  [role="alertdialog"],
+  [role="menu"],
+  [role="listbox"],
+  [role="tooltip"],
+  dialog,
+  .modular,
+  .modulesDock--permanent,
+  .appTable,
+  [class*="appTable"],
+  .ubntPanelContent,
+  [class*="ubntPanel"] {
+    background-color: color-mix(in srgb, /*[[surface]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
+    color: /*[[text]]*/;
+    border-color: /*[[border]]*/;
+  }
+
+  [class*="modal" i],
+  [class*="dialog" i],
+  [class*="dropdown" i],
+  [class*="popover" i],
+  [class*="tooltip" i],
+  [role="dialog"],
+  [role="alertdialog"],
+  [role="menu"],
+  [role="listbox"],
+  [role="tooltip"],
+  dialog {
+    background-color: /*[[surface-raised]]*/ !important;
+  }
+
+  [class*="theme-light" i],
+  [class*="themeLight"],
+  [class*="--light"],
+  [class*="is-light" i],
+  [class*="isLight"] {
+    background-color: color-mix(in srgb, /*[[surface]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
+    color: /*[[text]]*/;
+  }
+
+  /* Legacy chart labels from the public UniFi dark-style gist. Canvas charts are unaffected. */
+  .unifiDonutChartLabel__main,
+  .unifiDonutChartLabel__secondary,
+  .unifiLineChart__axis text,
+  .unifiLoadContainer .unifiLineChart__axis text {
+    fill: /*[[text]]*/;
+  }
+
+  .unifiLineChart__axis g line {
+    stroke: /*[[border]]*/;
+  }
+
+  .appSubHeading,
+  .modularSubHeading,
+  .modularNavigationTitle,
+  [class*="card-title" i],
+  [class*="cardTitle"],
+  [class*="section-title" i],
+  [class*="sectionTitle"] {
+    color: /*[[text]]*/;
+  }
+
+  [aria-selected="true"],
+  [aria-current="page"],
+  [aria-current="true"],
+  [role="tab"][aria-selected="true"] {
+    color: /*[[accent]]*/ !important;
+    box-shadow: inset 3px 0 0 /*[[accent]]*/ !important;
+  }
+
+  [role="tab"][aria-selected="true"] {
+    box-shadow: inset 0 -2px 0 /*[[accent]]*/ !important;
+  }
+
+  a:hover {
+    text-decoration-color: /*[[accent]]*/;
+  }
+
+  button[class*="primary" i],
+  [role="button"][class*="primary" i],
+  a[class*="primary" i],
+  [class*="btn-primary" i],
+  [class*="btnPrimary"],
+  [class*="button--primary" i],
+  [class*="buttonPrimary" i],
+  [class*="ButtonPrimary"],
+  [class*="primaryButton" i],
+  [class*="PrimaryButton"],
+  .appButton--primary,
+  .appMainButton--primary {
+    background-color: /*[[accent]]*/ !important;
+    background-image: none !important;
+    border-color: transparent !important;
+    color: /*[[on-accent]]*/ !important;
+  }
+
+  button[class*="primary" i]:hover,
+  [role="button"][class*="primary" i]:hover,
+  .appButton--primary:hover {
+    background-color: color-mix(in srgb, /*[[accent]]*/ 84%, white) !important;
+  }
+
+  button[class*="secondary" i],
+  [role="button"][class*="secondary" i],
+  [class*="button--secondary" i],
+  [class*="secondaryButton" i],
+  .appButton--secondary {
+    background-color: transparent !important;
+    border-color: /*[[border]]*/ !important;
+    color: /*[[text]]*/ !important;
+  }
+
+  button[class*="danger" i],
+  button[class*="destructive" i],
+  [role="button"][class*="danger" i],
+  [role="button"][class*="destructive" i] {
+    background-color: #b4233c !important;
+    border-color: transparent !important;
+    color: #fff7f8 !important;
+  }
+
+  button[class*="success" i],
+  [role="button"][class*="success" i] {
+    background-color: #1f8a4c !important;
+    border-color: transparent !important;
+    color: #f4fff8 !important;
+  }
+
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]),
+  textarea,
+  select {
+    background-color: /*[[surface-raised]]*/ !important;
+    color: /*[[text]]*/ !important;
+    border-color: /*[[border]]*/ !important;
+    caret-color: /*[[accent]]*/;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: /*[[text-muted]]*/ !important;
+    opacity: 1;
+  }
+
+  input:focus,
+  textarea:focus,
+  select:focus,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible,
+  button:focus-visible,
+  a:focus-visible,
+  [role="button"]:focus-visible,
+  [role="tab"]:focus-visible {
+    outline: 2px solid /*[[accent]]*/ !important;
+    outline-offset: 2px;
+  }
+
+  input[type="checkbox"],
+  input[type="radio"],
+  input[type="range"],
+  progress {
+    accent-color: /*[[accent]]*/;
+  }
+
+  option,
+  optgroup {
+    background-color: /*[[surface-raised]]*/;
+    color: /*[[text]]*/;
+  }
+
+  table {
+    border-color: /*[[border]]*/;
+  }
+
+  th {
+    background-color: /*[[surface-raised]]*/ !important;
+    color: /*[[text]]*/ !important;
+    border-color: /*[[border]]*/ !important;
+  }
+
+  td {
+    border-color: /*[[border]]*/;
+    color: /*[[text]]*/;
+  }
+
+  tr:hover td {
+    background-color: color-mix(in srgb, /*[[accent]]*/ 12%, transparent);
+  }
+
+  hr {
+    border-color: /*[[border]]*/ !important;
+    background-color: /*[[border]]*/ !important;
+  }
+
+  code,
+  pre,
+  kbd,
+  samp {
+    background-color: /*[[surface-raised]]*/ !important;
+    color: /*[[accent-2]]*/ !important;
+    border-color: /*[[border]]*/;
+  }
+
+  ::selection {
+    background: /*[[accent]]*/;
+    color: /*[[on-accent]]*/;
+  }
+
+  * {
+    scrollbar-color: /*[[accent-2]]*/ /*[[surface]]*/;
+  }
+
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: /*[[surface]]*/;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: /*[[accent-2]]*/;
+    border-radius: 99px;
+  }
+
+  dialog::backdrop,
+  ::backdrop {
+    background: color-mix(in srgb, /*[[background]]*/ 35%, #000) !important;
+  }
+
+  [class*="login" i][class*="card" i],
+  [class*="login" i][class*="panel" i],
+  [class*="login" i][class*="box" i],
+  [class*="auth" i][class*="card" i],
+  [class*="auth" i][class*="panel" i] {
+    background-color: /*[[surface-raised]]*/ !important;
+    color: /*[[text]]*/ !important;
+    border-color: /*[[border]]*/ !important;
+  }
+
+  @media (prefers-reduced-transparency: reduce) {
+    nav,
+    aside,
+    header,
+    footer,
+    [role="navigation"],
+    [role="banner"],
+    [class*="sidebar" i],
+    [class*="sidenav" i],
+    [class*="navigation" i],
+    [class*="card" i],
+    [class*="panel" i],
+    [class*="widget" i],
+    [class*="modal" i],
+    [class*="dialog" i],
+    .modular,
+    .appTable {
+      background-color: /*[[surface]]*/ !important;
+    }
+  }
+}
