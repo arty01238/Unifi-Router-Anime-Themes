@@ -8,7 +8,7 @@
  * See the Contributing section in the root README.
  */
 
-export const version = "1.1.0";
+export const version = "1.2.0";
 
 export const repo = "arty01238/Unifi-Router-Anime-Themes";
 

@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name         Homura Akemi — UniFi OS
 @namespace    https://github.com/arty01238/Unifi-Router-Anime-Themes
-@version      1.1.0
+@version      1.2.0
 @description  Deep purple and black UniFi OS theme with violet and silver clock marks, inspired by Homura Akemi. Browser-only. Unofficial fan work; does not modify the router.
 @author       arty01238 (https://github.com/arty01238)
 @homepageURL  https://github.com/arty01238/Unifi-Router-Anime-Themes
@@ -42,141 +42,72 @@
   /*
    * Shared UniFi OS canvas. Generated into each .user.css by scripts/build.mjs.
    *
-   * Tuned after a UniFi OS 5.0.x / Network 10.x Dashboard screenshot on a UDM SE.
-   * That page broke when broad rules painted icon tiles, cleared background
-   * images, and forced color onto every node (currentColor icons went blank,
-   * and the sidebar product <img alt="UDM SE"> lost its picture).
+   * Captured from the public UniFi Design Center (https://design.ui.com), which
+   * is the current no-login UniFi web app. demo.ui.com redirects to ui.com.
+   * The app's color system is the UniFi Design System: semantic tokens such as
+   * --color-text-1 and --color-depth-bg-0 are aliases of
+   * --color-neutral-00..12 and --color-ublue-01..10. Buttons, headers, panels,
+   * and links read those scales. Remapping the scales recolors the UI without
+   * changing layout, images, or icon geometry.
    *
-   * This file does not set background, filter, opacity, or color on img, svg,
-   * picture, or canvas, and it does not use `*`, `div`, or [class*="..."].
-   * Form controls are left to the console except accent-color and the accent
-   * custom properties below.
+   * Light mode (no data-theme, or data-theme="light"): index 00 is the lightest
+   * surface and 12 is the darkest text. Dark mode flips the lightness but keeps
+   * the same roles. Both blocks are set with !important on html and [data-uids],
+   * which is where Design Center defines the tokens.
    *
-   * Tokens, in the order the console is likely to read them:
-   * - UniFi Design System names published with @ubnt/uids-tokens:
-   *   --desktop-color-text-1/2/3, --desktop-color-depth-bg-0/1/2,
-   *   --desktop-color-global-primary, --desktop-color-ublue-06.
-   *   Network maps palette.neutral / cssVariables uiNN onto
-   *   --desktop-color-neutral-NN; those neutrals are left alone so icon
-   *   plates and status scales keep the console's own colors.
-   * - Legacy Angular-era names from the public 2019 UniFi-Dark gist
-   *   (--ubnt-color-*, --main-panel-background-color, --navigation-background-color,
-   *   --button-primary-*, --toggle-background-on-color). Icon url() tokens
-   *   from that gist are not set.
+   * Do not style img, svg, picture, or canvas. Do not restyle form controls
+   * except accent-color. Green and red scales stay stock so status colors hold.
    */
 
   html {
     min-height: 100%;
-    background-color: /*[[background]]*/ !important;
+    background-color: /*[[background]]*/;
     color-scheme: dark;
-    color: /*[[text]]*/;
     scrollbar-color: /*[[accent-2]]*/ /*[[surface]]*/;
-    --desktop-color-text-1: /*[[text]]*/ !important;
-    --desktop-color-text-2: /*[[text-muted]]*/ !important;
-    --desktop-color-text-3: /*[[text-muted]]*/ !important;
-    --desktop-color-depth-bg-0: transparent !important;
-    --desktop-color-depth-bg-1: color-mix(in srgb, /*[[surface]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
-    --desktop-color-depth-bg-2: color-mix(in srgb, /*[[surface-raised]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
-    --desktop-color-global-primary: /*[[accent]]*/ !important;
-    --desktop-color-ublue-05: color-mix(in srgb, /*[[accent]]*/ 82%, white) !important;
-    --desktop-color-ublue-06: /*[[accent]]*/ !important;
-    --desktop-color-ublue-07: color-mix(in srgb, /*[[accent]]*/ 82%, black) !important;
-    --ubnt-color-text-primary: /*[[text]]*/ !important;
-    --ubnt-color-text-secondary: /*[[text-muted]]*/ !important;
-    --ubnt-color-text-tertiary: /*[[text-muted]]*/ !important;
-    --ubnt-color-background-primary: transparent !important;
-    --ubnt-color-background-secondary: color-mix(in srgb, /*[[surface]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
-    --ubnt-color-background-tertiary: color-mix(in srgb, /*[[surface-raised]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
-    --ubnt-color-border-primary: /*[[border]]*/ !important;
-    --ubnt-color-border-secondary: /*[[border]]*/ !important;
-    --ubnt-color-border-tertiary: /*[[border]]*/ !important;
-    --main-panel-background-color: transparent !important;
-    --navigation-background-color: color-mix(in srgb, /*[[surface]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
-    --side-panel-background-color: color-mix(in srgb, /*[[surface]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
-    --side-panel-border-color: /*[[border]]*/ !important;
-    --side-panel-font-color: /*[[text]]*/ !important;
-    --header-panel-background-color: color-mix(in srgb, /*[[surface]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
-    --header-panel-border-color: /*[[border]]*/ !important;
-    --header-panel-font-color: /*[[text]]*/ !important;
-    --header-panel-global-font-color: /*[[text]]*/ !important;
-    --footer-panel-background-color: color-mix(in srgb, /*[[surface]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
-    --footer-panel-border-color: /*[[border]]*/ !important;
-    --footer-panel-font-color: /*[[text-muted]]*/ !important;
-    --card-title-color: /*[[text]]*/ !important;
-    --block-title-font-color: /*[[text]]*/ !important;
-    --block-section-font-color: /*[[text-muted]]*/ !important;
-    --block-row-font-color: /*[[text-muted]]*/ !important;
-    --label-primary-font-color: /*[[text]]*/ !important;
-    --label-secondary-font-color: /*[[text-muted]]*/ !important;
-    --button-primary-font-color: /*[[on-accent]]*/ !important;
-    --button-primary-background-color: /*[[accent]]*/ !important;
-    --button-primary-hover-background-color: color-mix(in srgb, /*[[accent]]*/ 84%, white) !important;
-    --button-primary-active-background-color: color-mix(in srgb, /*[[accent]]*/ 78%, black) !important;
-    --toggle-background-on-color: /*[[accent]]*/ !important;
-    --tab-item-font-color: /*[[text-muted]]*/ !important;
-    --tab-item-selected-font-color: /*[[accent]]*/ !important;
-    --table-font-color: /*[[text]]*/ !important;
-    --table-header-font-color: /*[[text]]*/ !important;
-    --table-body-cell-font-color: /*[[text]]*/ !important;
-    --modal-font-color: /*[[text]]*/ !important;
-    --modal-header-font-color: /*[[text]]*/ !important;
-    --dropdown-font-color: /*[[text]]*/ !important;
-    --popover-font-color: /*[[text]]*/ !important;
-    --tooltip-font-color: /*[[text]]*/ !important;
-    --modal-background-color: color-mix(in srgb, /*[[surface-raised]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
-    --dropdown-background-color: color-mix(in srgb, /*[[surface-raised]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
-    --popover-background-color: color-mix(in srgb, /*[[surface-raised]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
-    --tooltip-background-color: /*[[surface-raised]]*/ !important;
-  }
-
-  /* Faint geometric motif. The portrait pseudo paints above this. */
-  html::before {
-    content: "";
-    position: fixed;
-    z-index: -1;
-    inset: 0;
-    pointer-events: none;
-    opacity: /*[[show-motif]]*/;
-    background-image: repeating-conic-gradient(from -1deg at 6% -8%, color-mix(in srgb, /*[[accent-2]]*/ 70%, transparent) 0 0.65deg, transparent 0.65deg 30deg),
-      radial-gradient(circle at 6% -8%, transparent 0 140px, color-mix(in srgb, /*[[accent-2]]*/ 55%, transparent) 141px 143px, transparent 144px 186px, color-mix(in srgb, /*[[accent]]*/ 45%, transparent) 187px 189px, transparent 190px);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-attachment: fixed;
-  }
-
-  /*
-   * Character art. contain + bottom-right keeps the whole figure in view
-   * instead of cropping it under the dashboard chart. A light dim wash sits
-   * on top of the picture only.
-   */
-  html::after {
-    content: "";
-    position: fixed;
-    z-index: -1;
-    inset: 0;
-    pointer-events: none;
+    --uat-portrait-blur: /*[[background-blur]]*/;
     background-image:
       linear-gradient(
         color-mix(in srgb, /*[[dim-color]]*/ calc(/*[[background-dim]]*/ * 100%), transparent),
         color-mix(in srgb, /*[[dim-color]]*/ calc(/*[[background-dim]]*/ * 100%), transparent)
       ),
-      /*[[background-image]]*/;
+      /*[[background-image]]*/,
+      repeating-conic-gradient(from -1deg at 6% -8%, color-mix(in srgb, /*[[accent-2]]*/ 70%, transparent) 0 0.65deg, transparent 0.65deg 30deg),
+      radial-gradient(circle at 6% -8%, transparent 0 140px, color-mix(in srgb, /*[[accent-2]]*/ 55%, transparent) 141px 143px, transparent 144px 186px, color-mix(in srgb, /*[[accent]]*/ 45%, transparent) 187px 189px, transparent 190px);
     background-repeat: no-repeat;
-    background-size: auto, contain;
-    background-position: center center, right 24px bottom 24px;
-    background-attachment: fixed, fixed;
-    filter: blur(/*[[background-blur]]*/);
+    background-size: auto, contain, auto;
+    background-position: center center, right 24px bottom 24px, center center;
+    background-attachment: fixed;
+  }
+
+  /*
+   * Design Center (and the same UIDS shell) paints some surfaces with literal
+   * colors on classes such as appHeader-light__<hash>, not on the tokens.
+   * These stems were read from the live DOM on 17 Nov 2026. Icon, logo, and
+   * button classes are not included.
+   */
+  [class*="appHeader-light"],
+  [class*="appHeader-dark"],
+  [class*="root-light"],
+  [class*="root-dark"],
+  [class*="navWrapper-vertical-light"],
+  [class*="navWrapper-vertical-dark"],
+  [class*="frame-light"],
+  [class*="frame-dark"],
+  [class*="row-light"],
+  [class*="row-dark"],
+  [class*="list-light"],
+  [class*="list-dark"],
+  [class*="deviceLabelGroup-light"],
+  [class*="deviceLabelGroup-dark"] {
+    background-color: color-mix(in srgb, /*[[surface]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
+    border-color: /*[[border]]*/;
   }
 
   body {
     min-height: 100%;
-    margin: 0;
     background-color: transparent !important;
-    background-image: none !important;
-    color: /*[[text]]*/;
   }
 
-  /* 2px accent only. The old sawtooth / petal / tick strips covered the chrome. */
   body::after {
     content: "";
     position: fixed;
@@ -190,61 +121,58 @@
     background: /*[[accent]]*/;
   }
 
-  #root,
-  #app,
-  main,
-  [role="main"] {
-    background-color: transparent !important;
-    color: /*[[text]]*/;
+  html:not([data-theme="dark"]),
+  [data-uids]:not([data-theme="dark"]) {
+    --color-neutral-00: color-mix(in srgb, #f7f6ff calc(/*[[panel-opacity]]*/ * 0.72 * 100%), transparent) !important;
+    --color-neutral-01: color-mix(in srgb, #f2f0ff calc(/*[[panel-opacity]]*/ * 1 * 100%), transparent) !important;
+    --color-neutral-02: color-mix(in srgb, #e3e2fb calc(/*[[panel-opacity]]*/ * 1 * 100%), transparent) !important;
+    --color-neutral-03: #d4d3f4 !important;
+    --color-neutral-04: #aeb3c0 !important;
+    --color-neutral-05: #9197a7 !important;
+    --color-neutral-06: #73798c !important;
+    --color-neutral-07: #596076 !important;
+    --color-neutral-08: #5a5669 !important;
+    --color-neutral-09: #120e1e !important;
+    --color-neutral-10: #141022 !important;
+    --color-neutral-11: #08060d !important;
+    --color-neutral-12: #06050a !important;
+    --color-ublue-01: #eae7ff !important;
+    --color-ublue-02: #d8d1ff !important;
+    --color-ublue-03: #c4b9ff !important;
+    --color-ublue-04: #ac9dff !important;
+    --color-ublue-05: #937eff !important;
+    --color-ublue-06: #7E66FF !important;
+    --color-ublue-07: #6a56d6 !important;
+    --color-ublue-08: #5645ad !important;
+    --color-ublue-09: #3f3380 !important;
+    --color-ublue-10: #282152 !important;
   }
 
-  /*
-   * Sidebar and header stay translucent without backdrop-filter. A filter on
-   * the sidebar was enough to stop the UDM product <img> from painting.
-   */
-  nav,
-  aside,
-  header,
-  footer,
-  [role="navigation"],
-  [role="banner"] {
-    background-color: color-mix(in srgb, /*[[surface]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
-    color: /*[[text]]*/;
-    border-color: /*[[border]]*/;
-  }
-
-  section,
-  article,
-  dialog,
-  [role="dialog"],
-  [role="alertdialog"] {
-    background-color: color-mix(in srgb, /*[[surface]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
-    color: /*[[text]]*/;
-    border-color: /*[[border]]*/;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-  }
-
-  dialog,
-  [role="dialog"],
-  [role="alertdialog"] {
-    background-color: color-mix(in srgb, /*[[surface-raised]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
-  }
-
-  /* Legacy chart text. These class names are not svg/img/canvas. */
-  .unifiDonutChartLabel__main,
-  .unifiDonutChartLabel__secondary,
-  .unifiLineChart__axis text,
-  .unifiLoadContainer .unifiLineChart__axis text {
-    fill: /*[[text]]*/;
-  }
-
-  .unifiLineChart__axis g line {
-    stroke: /*[[border]]*/;
-  }
-
-  a:hover {
-    text-decoration-color: /*[[accent]]*/;
+  html[data-theme="dark"],
+  [data-uids][data-theme="dark"] {
+    --color-neutral-00: color-mix(in srgb, #09070F calc(/*[[panel-opacity]]*/ * 0.72 * 100%), transparent) !important;
+    --color-neutral-01: color-mix(in srgb, #110d1c calc(/*[[panel-opacity]]*/ * 1 * 100%), transparent) !important;
+    --color-neutral-02: color-mix(in srgb, #141022 calc(/*[[panel-opacity]]*/ * 1 * 100%), transparent) !important;
+    --color-neutral-03: #1c172d !important;
+    --color-neutral-04: #221C34 !important;
+    --color-neutral-05: #302948 !important;
+    --color-neutral-06: #3C3458 !important;
+    --color-neutral-07: #847e9c !important;
+    --color-neutral-08: #DDD8EE !important;
+    --color-neutral-09: #e1ddf0 !important;
+    --color-neutral-10: #e5e2f1 !important;
+    --color-neutral-11: #e9e7f3 !important;
+    --color-neutral-12: #ECEAF4 !important;
+    --color-ublue-01: #17122e !important;
+    --color-ublue-02: #282152 !important;
+    --color-ublue-03: #3c317a !important;
+    --color-ublue-04: #5141a3 !important;
+    --color-ublue-05: #6754d1 !important;
+    --color-ublue-06: #7E66FF !important;
+    --color-ublue-07: #937eff !important;
+    --color-ublue-08: #a797ff !important;
+    --color-ublue-09: #bfb3ff !important;
+    --color-ublue-10: #dbd4ff !important;
   }
 
   input[type="checkbox"],
@@ -257,27 +185,5 @@
   ::selection {
     background: /*[[accent]]*/;
     color: /*[[on-accent]]*/;
-  }
-
-  dialog::backdrop {
-    background: color-mix(in srgb, /*[[background]]*/ 45%, transparent);
-  }
-
-  @media (prefers-reduced-transparency: reduce) {
-    nav,
-    aside,
-    header,
-    footer,
-    [role="navigation"],
-    [role="banner"],
-    section,
-    article,
-    dialog,
-    [role="dialog"],
-    [role="alertdialog"] {
-      background-color: /*[[surface]]*/ !important;
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
-    }
   }
 }

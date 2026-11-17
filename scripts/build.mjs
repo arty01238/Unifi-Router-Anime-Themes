@@ -101,11 +101,129 @@ function colorLabel(key) {
   return labels[key];
 }
 
+function hexToRgb(hex) {
+  const value = parseInt(hex.slice(1), 16);
+  return [(value >> 16) & 255, (value >> 8) & 255, value & 255];
+}
+
+function rgbToHex(r, g, b) {
+  return `#${[r, g, b]
+    .map((channel) => Math.round(Math.max(0, Math.min(255, channel))).toString(16).padStart(2, "0"))
+    .join("")}`;
+}
+
+function mixHex(a, b, t) {
+  const from = hexToRgb(a);
+  const to = hexToRgb(b);
+  return rgbToHex(
+    from[0] + (to[0] - from[0]) * t,
+    from[1] + (to[1] - from[1]) * t,
+    from[2] + (to[2] - from[2]) * t,
+  );
+}
+
+function ublueScale(accent, direction) {
+  if (direction === "dark") {
+    return [0.82, 0.68, 0.52, 0.36, 0.18, null, 0.16, 0.32, 0.5, 0.72].map((amount, index) => {
+      if (amount == null) return accent;
+      return index < 5 ? mixHex(accent, "#000000", amount) : mixHex(accent, "#ffffff", amount);
+    });
+  }
+  return [0.84, 0.7, 0.54, 0.36, 0.16, null, 0.16, 0.32, 0.5, 0.68].map((amount, index) => {
+    if (amount == null) return accent;
+    return index < 5 ? mixHex(accent, "#ffffff", amount) : mixHex(accent, "#000000", amount);
+  });
+}
+
+function neutralScale(colors, direction) {
+  if (direction === "dark") {
+    return [
+      colors.background,
+      mixHex(colors.background, colors.surface, 0.7),
+      colors.surface,
+      mixHex(colors.surface, colors["surface-raised"], 0.6),
+      colors["surface-raised"],
+      mixHex(colors["surface-raised"], colors.border, 0.55),
+      colors.border,
+      mixHex(colors.border, colors["text-muted"], 0.45),
+      colors["text-muted"],
+      mixHex(colors["text-muted"], colors.text, 0.28),
+      mixHex(colors["text-muted"], colors.text, 0.55),
+      mixHex(colors["text-muted"], colors.text, 0.82),
+      colors.text,
+    ];
+  }
+  if (colors.surface.toLowerCase() === "#ffffff" || colors.scheme === "light") {
+    return [
+      colors.surface,
+      colors.background,
+      colors["surface-raised"],
+      mixHex(colors["surface-raised"], colors["background-2"], 0.55),
+      colors.border,
+      mixHex(colors.border, colors["text-muted"], 0.2),
+      mixHex(colors.border, colors["text-muted"], 0.4),
+      mixHex(colors["text-muted"], "#ffffff", 0.2),
+      colors["text-muted"],
+      mixHex(colors["text-muted"], colors.text, 0.35),
+      mixHex(colors["text-muted"], colors.text, 0.62),
+      mixHex(colors["text-muted"], colors.text, 0.84),
+      colors.text,
+    ];
+  }
+  return [
+    mixHex("#ffffff", colors.accent, 0.06),
+    mixHex("#ffffff", colors.accent, 0.1),
+    mixHex("#f4f6fa", colors.accent, 0.14),
+    mixHex("#e7ebf2", colors.accent, 0.18),
+    mixHex("#d5dce8", colors.surface, 0.2),
+    mixHex("#c2ccdb", colors.surface, 0.28),
+    mixHex("#a8b4c8", colors.surface, 0.36),
+    mixHex("#8b9ab2", colors.surface, 0.42),
+    mixHex(colors.surface, colors["text-muted"], 0.35),
+    mixHex(colors.surface, "#000000", 0.12),
+    colors.surface,
+    mixHex(colors.background, "#000000", 0.15),
+    mixHex(colors.background, "#000000", 0.35),
+  ];
+}
+
+function tokenDeclarations(colors, direction) {
+  const neutral = neutralScale(colors, direction);
+  const ublue = ublueScale(colors.accent, direction);
+  const lines = neutral.map((hex, index) => {
+    const name = `--color-neutral-${String(index).padStart(2, "0")}`;
+    if (index <= 2) {
+      const factor = index === 0 ? "0.72" : "1";
+      return `${name}: color-mix(in srgb, ${hex} calc(/*[[panel-opacity]]*/ * ${factor} * 100%), transparent) !important;`;
+    }
+    return `${name}: ${hex} !important;`;
+  });
+  ublue.forEach((hex, index) => {
+    lines.push(`--color-ublue-${String(index + 1).padStart(2, "0")}: ${hex} !important;`);
+  });
+  return { neutral, lines };
+}
+
+function tokenCss(theme) {
+  const light = tokenDeclarations({ ...theme.colors, scheme: theme.scheme }, "light");
+  const dark = tokenDeclarations({ ...theme.colors, scheme: theme.scheme }, "dark");
+  return `html:not([data-theme="dark"]),
+[data-uids]:not([data-theme="dark"]) {
+  ${light.lines.join("\n  ")}
+}
+
+html[data-theme="dark"],
+[data-uids][data-theme="dark"] {
+  ${dark.lines.join("\n  ")}
+}`;
+}
+
 function userCss(theme) {
   const motif = theme.wallpaper.join(",\n    ");
   const css = baseCss
     .replaceAll("__UAT_SCHEME__", theme.scheme)
-    .replaceAll("__UAT_MOTIF__", motif);
+    .replaceAll("__UAT_MOTIF__", motif)
+    .replaceAll("__UAT_TOKENS__", tokenCss(theme));
   if (css.includes("__UAT_")) {
     throw new Error(`Unresolved template token in ${theme.id}`);
   }
@@ -450,10 +568,24 @@ function assertThemes() {
     if (theme.panel < 0.7 || theme.panel > 0.8) {
       throw new Error(`${theme.id} panel opacity ${theme.panel} is outside 0.70-0.80`);
     }
+    for (const direction of ["dark", "light"]) {
+      const scale = tokenDeclarations({ ...theme.colors, scheme: theme.scheme }, direction).neutral;
+      for (const index of [12, 10, 8]) {
+        const ratio = contrast(scale[index], scale[1]);
+        if (ratio < 4.5) {
+          throw new Error(
+            `${theme.id} ${direction} neutral-${String(index).padStart(2, "0")} on neutral-01 is ${ratio.toFixed(2)}`,
+          );
+        }
+      }
+    }
   }
   const baseRules = baseCss.replace(/\/\*[\s\S]*?\*\//g, "");
-  if (/\[class\*=|\bbody \*|^\s*\*\s*\{/m.test(baseRules)) {
-    throw new Error("base.css uses a broad catch-all selector");
+  if (/\bbody \*|^\s*\*\s*\{/m.test(baseRules)) {
+    throw new Error("base.css uses a universal selector");
+  }
+  if (/\[class\*=["'](?:tile|card|panel|widget|icon|button|menu|table|sidebar)/i.test(baseRules)) {
+    throw new Error("base.css uses a broad partial class selector");
   }
   if (/(?:^|[\s,{])(?:img|svg|picture|canvas)\b/.test(baseRules)) {
     throw new Error("base.css must not style img, svg, picture, or canvas");

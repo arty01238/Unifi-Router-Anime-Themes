@@ -56,7 +56,7 @@ Each `.user.css` is generated from [`src/base.css`](src/base.css) plus a palette
 
 ## Known limitations
 
-Version 1.1.0 was adjusted after a UniFi OS 5.0.x / Network 10.x Dashboard screenshot from a UDM SE. Earlier rules matched partial class names and every element under `body`, which blanked device icons and the sidebar product image. The console still has to be checked by someone with a gateway; `unifi.ui.com` is not a public demo.
+`https://demo.ui.com` redirects to ui.com. The public no-login UniFi app is [Design Center](https://design.ui.com/projects/default/rack). It uses the same `--color-neutral-*` and `--color-ublue-*` tokens as current UniFi OS. `npm run screenshots` loads that app at 1920×1080. It does not include the UDM Dashboard, Devices, Clients, WiFi, or Insights pages. The owner's console is UniFi OS 5.0.x / Network 10.x, dark mode. See [research/FINDINGS.md](research/FINDINGS.md).
 
 Expect these gaps:
 
