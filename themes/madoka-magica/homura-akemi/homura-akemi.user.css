@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name         Homura Akemi — UniFi OS
 @namespace    https://github.com/arty01238/Unifi-Router-Anime-Themes
-@version      1.2.0
+@version      1.2.1
 @description  Deep purple and black UniFi OS theme with violet and silver clock marks, inspired by Homura Akemi. Browser-only. Unofficial fan work; does not modify the router.
 @author       arty01238 (https://github.com/arty01238)
 @homepageURL  https://github.com/arty01238/Unifi-Router-Anime-Themes
@@ -50,10 +50,13 @@
    * and links read those scales. Remapping the scales recolors the UI without
    * changing layout, images, or icon geometry.
    *
-   * Light mode (no data-theme, or data-theme="light"): index 00 is the lightest
-   * surface and 12 is the darkest text. Dark mode flips the lightness but keeps
-   * the same roles. Both blocks are set with !important on html and [data-uids],
-   * which is where Design Center defines the tokens.
+   * Dark themes write the dark scale (00 = darkest surface, 12 = lightest text)
+   * into both the light and dark token blocks, and set color-scheme: dark.
+   * Madoka Light writes the light scale (00 = lightest surface, 12 = darkest
+   * text) into both blocks. Design Center stores the switch in
+   * localStorage motif ("light" | "dark" | "system") and mirrors it to
+   * body[data-theme] and body color-scheme. A userstyle cannot write
+   * localStorage; npm run screenshots sets motif before the app boots.
    *
    * Do not style img, svg, picture, or canvas. Do not restyle form controls
    * except accent-color. Green and red scales stay stock so status colors hold.
@@ -65,18 +68,33 @@
     color-scheme: dark;
     scrollbar-color: /*[[accent-2]]*/ /*[[surface]]*/;
     --uat-portrait-blur: /*[[background-blur]]*/;
+    background-image: radial-gradient(circle at 6% -8%, transparent 0 220px, /*[[background]]*/ 300px),
+      repeating-conic-gradient(from -1deg at 6% -8%, color-mix(in srgb, /*[[accent-2]]*/ 70%, transparent) 0 0.65deg, transparent 0.65deg 30deg),
+      radial-gradient(circle at 6% -8%, transparent 0 140px, color-mix(in srgb, /*[[accent-2]]*/ 55%, transparent) 141px 143px, transparent 144px 186px, color-mix(in srgb, /*[[accent]]*/ 45%, transparent) 187px 189px, transparent 190px);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+
+  /* The portrait sits in the corner, above opaque cards, and ignores clicks. */
+  body::before {
+    content: "";
+    position: fixed;
+    z-index: 40;
+    right: 12px;
+    bottom: 12px;
+    width: min(34vw, 420px);
+    height: min(86vh, 860px);
+    pointer-events: none;
     background-image:
       linear-gradient(
         color-mix(in srgb, /*[[dim-color]]*/ calc(/*[[background-dim]]*/ * 100%), transparent),
         color-mix(in srgb, /*[[dim-color]]*/ calc(/*[[background-dim]]*/ * 100%), transparent)
       ),
-      /*[[background-image]]*/,
-      repeating-conic-gradient(from -1deg at 6% -8%, color-mix(in srgb, /*[[accent-2]]*/ 70%, transparent) 0 0.65deg, transparent 0.65deg 30deg),
-      radial-gradient(circle at 6% -8%, transparent 0 140px, color-mix(in srgb, /*[[accent-2]]*/ 55%, transparent) 141px 143px, transparent 144px 186px, color-mix(in srgb, /*[[accent]]*/ 45%, transparent) 187px 189px, transparent 190px);
+      /*[[background-image]]*/;
     background-repeat: no-repeat;
-    background-size: auto, contain, auto;
-    background-position: center center, right 24px bottom 24px, center center;
-    background-attachment: fixed;
+    background-size: auto, contain;
+    background-position: center, right bottom;
+    filter: blur(/*[[background-blur]]*/);
   }
 
   /*
@@ -103,6 +121,69 @@
     border-color: /*[[border]]*/;
   }
 
+  [class*="overlay-loading"],
+  .dc-dark,
+  .dc-light,
+  [class*="wizard-container"] {
+    background-color: color-mix(in srgb, /*[[surface]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
+  }
+
+  [class*="headerTitle"] {
+    color: /*[[text]]*/ !important;
+  }
+
+  [class*="addDeviceButton-light"],
+  [class*="addDeviceButton-dark"] {
+    color: /*[[text]]*/ !important;
+  }
+
+  [class*="tab-light"],
+  [class*="tab-dark"],
+  [class*="tab-light"] [class*="text-"],
+  [class*="tab-dark"] [class*="text-"] {
+    color: /*[[text]]*/ !important;
+  }
+
+  /*
+   * Product tooltips use a literal rgb(43, 43, 43) bubble. Dark-theme text is
+   * light, so that bubble is fine. Madoka Light's text is dark, so the same
+   * bubble fails. Paint the bubble with the theme surface. The hint tooltip
+   * below overrides this with the button fill, which is dark enough for white.
+   */
+  [class*="tooltip-dark"],
+  [class*="tooltip-light"],
+  [class*="tooltip-dark"]::before,
+  [class*="tooltip-light"]::before,
+  [class*="tooltip-dark"] [class*="content"],
+  [class*="tooltip-light"] [class*="content"] {
+    background-color: /*[[surface]]*/ !important;
+  }
+
+  [class*="tooltip-dark"] :not(svg),
+  [class*="tooltip-light"] :not(svg),
+  [class*="description"] a {
+    color: /*[[text]]*/ !important;
+  }
+
+  /*
+   * Design Center paints the floor-plan hint and the filled primary button
+   * with a literal rgb(71, 151, 255), then puts near-white text on it.
+   * White on that blue is about 2.8:1. The button token is darkened until
+   * white text clears 4.6:1, so these surfaces use that fill.
+   */
+  .hint-tooltip,
+  .hint-tooltip::before,
+  [class*="primary-dark"][class*="is-accessible"],
+  [class*="primary-light"][class*="is-accessible"] {
+    background-color: var(--color-button-primary-bg-emphasis-enabled) !important;
+    color: #ffffff !important;
+  }
+
+  .hint-tooltip,
+  .hint-tooltip :not(svg) {
+    color: #ffffff !important;
+  }
+
   body {
     min-height: 100%;
     background-color: transparent !important;
@@ -122,57 +203,42 @@
   }
 
   html:not([data-theme="dark"]),
-  [data-uids]:not([data-theme="dark"]) {
-    --color-neutral-00: color-mix(in srgb, #f7f6ff calc(/*[[panel-opacity]]*/ * 0.72 * 100%), transparent) !important;
-    --color-neutral-01: color-mix(in srgb, #f2f0ff calc(/*[[panel-opacity]]*/ * 1 * 100%), transparent) !important;
-    --color-neutral-02: color-mix(in srgb, #e3e2fb calc(/*[[panel-opacity]]*/ * 1 * 100%), transparent) !important;
-    --color-neutral-03: #d4d3f4 !important;
-    --color-neutral-04: #aeb3c0 !important;
-    --color-neutral-05: #9197a7 !important;
-    --color-neutral-06: #73798c !important;
-    --color-neutral-07: #596076 !important;
-    --color-neutral-08: #5a5669 !important;
-    --color-neutral-09: #120e1e !important;
-    --color-neutral-10: #141022 !important;
-    --color-neutral-11: #08060d !important;
-    --color-neutral-12: #06050a !important;
-    --color-ublue-01: #eae7ff !important;
-    --color-ublue-02: #d8d1ff !important;
-    --color-ublue-03: #c4b9ff !important;
-    --color-ublue-04: #ac9dff !important;
-    --color-ublue-05: #937eff !important;
-    --color-ublue-06: #7E66FF !important;
-    --color-ublue-07: #6a56d6 !important;
-    --color-ublue-08: #5645ad !important;
-    --color-ublue-09: #3f3380 !important;
-    --color-ublue-10: #282152 !important;
-  }
-
+  [data-uids]:not([data-theme="dark"]),
   html[data-theme="dark"],
   [data-uids][data-theme="dark"] {
+    color-scheme: dark !important;
     --color-neutral-00: color-mix(in srgb, #09070F calc(/*[[panel-opacity]]*/ * 0.72 * 100%), transparent) !important;
     --color-neutral-01: color-mix(in srgb, #110d1c calc(/*[[panel-opacity]]*/ * 1 * 100%), transparent) !important;
     --color-neutral-02: color-mix(in srgb, #141022 calc(/*[[panel-opacity]]*/ * 1 * 100%), transparent) !important;
     --color-neutral-03: #1c172d !important;
     --color-neutral-04: #221C34 !important;
-    --color-neutral-05: #302948 !important;
-    --color-neutral-06: #3C3458 !important;
-    --color-neutral-07: #847e9c !important;
-    --color-neutral-08: #DDD8EE !important;
-    --color-neutral-09: #e1ddf0 !important;
-    --color-neutral-10: #e5e2f1 !important;
-    --color-neutral-11: #e9e7f3 !important;
+    --color-neutral-05: #929099 !important;
+    --color-neutral-06: #a09ea7 !important;
+    --color-neutral-07: #aeacb6 !important;
+    --color-neutral-08: #bdbbc4 !important;
+    --color-neutral-09: #cbc9d2 !important;
+    --color-neutral-10: #d7d5df !important;
+    --color-neutral-11: #e3e1ea !important;
     --color-neutral-12: #ECEAF4 !important;
-    --color-ublue-01: #17122e !important;
-    --color-ublue-02: #282152 !important;
-    --color-ublue-03: #3c317a !important;
-    --color-ublue-04: #5141a3 !important;
-    --color-ublue-05: #6754d1 !important;
-    --color-ublue-06: #7E66FF !important;
-    --color-ublue-07: #937eff !important;
-    --color-ublue-08: #a797ff !important;
-    --color-ublue-09: #bfb3ff !important;
-    --color-ublue-10: #dbd4ff !important;
+    --color-ublue-01: #19152e !important;
+    --color-ublue-02: #2c2552 !important;
+    --color-ublue-03: #43387a !important;
+    --color-ublue-04: #594ba3 !important;
+    --color-ublue-05: #7260d1 !important;
+    --color-ublue-06: #8b75ff !important;
+    --color-ublue-07: #9986ff !important;
+    --color-ublue-08: #ab9cff !important;
+    --color-ublue-09: #c0b4ff !important;
+    --color-ublue-10: #dad3ff !important;
+    --color-text-1: #ECEAF4 !important;
+    --color-text-2: #d7d5df !important;
+    --color-text-3: #bdbbc4 !important;
+    --color-text-4: #929099 !important;
+    --color-red-06: #ff9aa0 !important;
+    --color-neutral-02-on-color: #141022 !important;
+    --color-button-primary-bg-emphasis-enabled: #745eeb !important;
+    --color-button-primary-bg-emphasis-hover: #8571ed !important;
+    --color-button-primary-bg-emphasis-active: #6653cf !important;
   }
 
   input[type="checkbox"],

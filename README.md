@@ -24,7 +24,7 @@ Palettes below are the built-in defaults. Install links open the raw `.user.css`
 4. Sign in at `https://unifi.ui.com` or `https://<your-host>`. The Ubiquiti account login on `account.ui.com` is left alone on purpose.
 5. Enable **one** theme at a time. Two styles will fight over the same elements.
 
-For a dark theme, set the console's own appearance to **Dark** first (UniFi OS / Network settings). Surfaces this style cannot see stay dark instead of flashing white. For **Madoka Kaname (Light)**, set the console to **Light**.
+Dark themes write their dark palette into both the light and dark token blocks and set `color-scheme: dark`, so text stays light even if a surface still reads the light token block. Hashed `*-light` / `*-dark` classes follow the console's own appearance (`localStorage` motif, shown as `data-theme`). Set that to **Dark** for Ellen, Jane, Madoka Dark, and Homura, and to **Light** for **Madoka Kaname (Light)**. A userstyle cannot flip that switch by itself.
 
 The style applies to iframes on the same host, which is how the Network application is often embedded in the UniFi OS shell.
 

@@ -8,7 +8,7 @@
  * See the Contributing section in the root README.
  */
 
-export const version = "1.2.0";
+export const version = "1.2.1";
 
 export const repo = "arty01238/Unifi-Router-Anime-Themes";
 
@@ -273,6 +273,7 @@ export const themes = [
     dim: 0.12,
     panel: 0.75,
     wallpaper: [
+      "radial-gradient(circle at 6% -8%, transparent 0 220px, /*[[background]]*/ 300px)",
       "repeating-conic-gradient(from -1deg at 6% -8%, color-mix(in srgb, /*[[accent-2]]*/ 70%, transparent) 0 0.65deg, transparent 0.65deg 30deg)",
       "radial-gradient(circle at 6% -8%, transparent 0 140px, color-mix(in srgb, /*[[accent-2]]*/ 55%, transparent) 141px 143px, transparent 144px 186px, color-mix(in srgb, /*[[accent]]*/ 45%, transparent) 187px 189px, transparent 190px)",
     ],

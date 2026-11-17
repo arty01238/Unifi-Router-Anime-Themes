@@ -9,10 +9,13 @@
  * and links read those scales. Remapping the scales recolors the UI without
  * changing layout, images, or icon geometry.
  *
- * Light mode (no data-theme, or data-theme="light"): index 00 is the lightest
- * surface and 12 is the darkest text. Dark mode flips the lightness but keeps
- * the same roles. Both blocks are set with !important on html and [data-uids],
- * which is where Design Center defines the tokens.
+ * Dark themes write the dark scale (00 = darkest surface, 12 = lightest text)
+ * into both the light and dark token blocks, and set color-scheme: dark.
+ * Madoka Light writes the light scale (00 = lightest surface, 12 = darkest
+ * text) into both blocks. Design Center stores the switch in
+ * localStorage motif ("light" | "dark" | "system") and mirrors it to
+ * body[data-theme] and body color-scheme. A userstyle cannot write
+ * localStorage; npm run screenshots sets motif before the app boots.
  *
  * Do not style img, svg, picture, or canvas. Do not restyle form controls
  * except accent-color. Green and red scales stay stock so status colors hold.
@@ -24,17 +27,31 @@ html {
   color-scheme: __UAT_SCHEME__;
   scrollbar-color: /*[[accent-2]]*/ /*[[surface]]*/;
   --uat-portrait-blur: /*[[background-blur]]*/;
+  background-image: __UAT_MOTIF__;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* The portrait sits in the corner, above opaque cards, and ignores clicks. */
+body::before {
+  content: "";
+  position: fixed;
+  z-index: 40;
+  right: 12px;
+  bottom: 12px;
+  width: min(34vw, 420px);
+  height: min(86vh, 860px);
+  pointer-events: none;
   background-image:
     linear-gradient(
       color-mix(in srgb, /*[[dim-color]]*/ calc(/*[[background-dim]]*/ * 100%), transparent),
       color-mix(in srgb, /*[[dim-color]]*/ calc(/*[[background-dim]]*/ * 100%), transparent)
     ),
-    /*[[background-image]]*/,
-    __UAT_MOTIF__;
+    /*[[background-image]]*/;
   background-repeat: no-repeat;
-  background-size: auto, contain, auto;
-  background-position: center center, right 24px bottom 24px, center center;
-  background-attachment: fixed;
+  background-size: auto, contain;
+  background-position: center, right bottom;
+  filter: blur(/*[[background-blur]]*/);
 }
 
 /*
@@ -59,6 +76,69 @@ html {
 [class*="deviceLabelGroup-dark"] {
   background-color: color-mix(in srgb, /*[[surface]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
   border-color: /*[[border]]*/;
+}
+
+[class*="overlay-loading"],
+.dc-dark,
+.dc-light,
+[class*="wizard-container"] {
+  background-color: color-mix(in srgb, /*[[surface]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
+}
+
+[class*="headerTitle"] {
+  color: /*[[text]]*/ !important;
+}
+
+[class*="addDeviceButton-light"],
+[class*="addDeviceButton-dark"] {
+  color: /*[[text]]*/ !important;
+}
+
+[class*="tab-light"],
+[class*="tab-dark"],
+[class*="tab-light"] [class*="text-"],
+[class*="tab-dark"] [class*="text-"] {
+  color: /*[[text]]*/ !important;
+}
+
+/*
+ * Product tooltips use a literal rgb(43, 43, 43) bubble. Dark-theme text is
+ * light, so that bubble is fine. Madoka Light's text is dark, so the same
+ * bubble fails. Paint the bubble with the theme surface. The hint tooltip
+ * below overrides this with the button fill, which is dark enough for white.
+ */
+[class*="tooltip-dark"],
+[class*="tooltip-light"],
+[class*="tooltip-dark"]::before,
+[class*="tooltip-light"]::before,
+[class*="tooltip-dark"] [class*="content"],
+[class*="tooltip-light"] [class*="content"] {
+  background-color: /*[[surface]]*/ !important;
+}
+
+[class*="tooltip-dark"] :not(svg),
+[class*="tooltip-light"] :not(svg),
+[class*="description"] a {
+  color: /*[[text]]*/ !important;
+}
+
+/*
+ * Design Center paints the floor-plan hint and the filled primary button
+ * with a literal rgb(71, 151, 255), then puts near-white text on it.
+ * White on that blue is about 2.8:1. The button token is darkened until
+ * white text clears 4.6:1, so these surfaces use that fill.
+ */
+.hint-tooltip,
+.hint-tooltip::before,
+[class*="primary-dark"][class*="is-accessible"],
+[class*="primary-light"][class*="is-accessible"] {
+  background-color: var(--color-button-primary-bg-emphasis-enabled) !important;
+  color: #ffffff !important;
+}
+
+.hint-tooltip,
+.hint-tooltip :not(svg) {
+  color: #ffffff !important;
 }
 
 body {

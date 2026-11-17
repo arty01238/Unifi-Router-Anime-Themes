@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name         Madoka Kaname (Light) — UniFi OS
 @namespace    https://github.com/arty01238/Unifi-Router-Anime-Themes
-@version      1.2.0
+@version      1.2.1
 @description  Soft pink, white, and light-gold UniFi OS theme with a ribbon and petal edge, inspired by Madoka Kaname. Light variant. Browser-only. Unofficial fan work; does not modify the router.
 @author       arty01238 (https://github.com/arty01238)
 @homepageURL  https://github.com/arty01238/Unifi-Router-Anime-Themes
@@ -50,10 +50,13 @@
    * and links read those scales. Remapping the scales recolors the UI without
    * changing layout, images, or icon geometry.
    *
-   * Light mode (no data-theme, or data-theme="light"): index 00 is the lightest
-   * surface and 12 is the darkest text. Dark mode flips the lightness but keeps
-   * the same roles. Both blocks are set with !important on html and [data-uids],
-   * which is where Design Center defines the tokens.
+   * Dark themes write the dark scale (00 = darkest surface, 12 = lightest text)
+   * into both the light and dark token blocks, and set color-scheme: dark.
+   * Madoka Light writes the light scale (00 = lightest surface, 12 = darkest
+   * text) into both blocks. Design Center stores the switch in
+   * localStorage motif ("light" | "dark" | "system") and mirrors it to
+   * body[data-theme] and body color-scheme. A userstyle cannot write
+   * localStorage; npm run screenshots sets motif before the app boots.
    *
    * Do not style img, svg, picture, or canvas. Do not restyle form controls
    * except accent-color. Green and red scales stay stock so status colors hold.
@@ -65,22 +68,36 @@
     color-scheme: light;
     scrollbar-color: /*[[accent-2]]*/ /*[[surface]]*/;
     --uat-portrait-blur: /*[[background-blur]]*/;
-    background-image:
-      linear-gradient(
-        color-mix(in srgb, /*[[dim-color]]*/ calc(/*[[background-dim]]*/ * 100%), transparent),
-        color-mix(in srgb, /*[[dim-color]]*/ calc(/*[[background-dim]]*/ * 100%), transparent)
-      ),
-      /*[[background-image]]*/,
-      radial-gradient(circle at 9% 86%, color-mix(in srgb, /*[[accent]]*/ 55%, transparent) 0 22px, transparent 23px),
+    background-image: radial-gradient(circle at 9% 86%, color-mix(in srgb, /*[[accent]]*/ 55%, transparent) 0 22px, transparent 23px),
       radial-gradient(circle at 14% 78%, color-mix(in srgb, /*[[accent]]*/ 40%, transparent) 0 30px, transparent 31px),
       radial-gradient(circle at 4% 76%, color-mix(in srgb, /*[[accent-2]]*/ 70%, transparent) 0 16px, transparent 17px),
       radial-gradient(circle at 18% 90%, color-mix(in srgb, /*[[accent]]*/ 35%, transparent) 0 18px, transparent 19px),
       radial-gradient(ellipse 120px 36px at 20% 82%, transparent 58%, color-mix(in srgb, /*[[accent-2]]*/ 80%, transparent) 60% 68%, transparent 70%),
       radial-gradient(ellipse 120px 36px at 1% 82%, transparent 58%, color-mix(in srgb, /*[[accent]]*/ 55%, transparent) 60% 68%, transparent 70%);
     background-repeat: no-repeat;
-    background-size: auto, contain, auto;
-    background-position: center center, right 24px bottom 24px, center center;
     background-attachment: fixed;
+  }
+
+  /* The portrait sits in the corner, above opaque cards, and ignores clicks. */
+  body::before {
+    content: "";
+    position: fixed;
+    z-index: 40;
+    right: 12px;
+    bottom: 12px;
+    width: min(34vw, 420px);
+    height: min(86vh, 860px);
+    pointer-events: none;
+    background-image:
+      linear-gradient(
+        color-mix(in srgb, /*[[dim-color]]*/ calc(/*[[background-dim]]*/ * 100%), transparent),
+        color-mix(in srgb, /*[[dim-color]]*/ calc(/*[[background-dim]]*/ * 100%), transparent)
+      ),
+      /*[[background-image]]*/;
+    background-repeat: no-repeat;
+    background-size: auto, contain;
+    background-position: center, right bottom;
+    filter: blur(/*[[background-blur]]*/);
   }
 
   /*
@@ -107,6 +124,69 @@
     border-color: /*[[border]]*/;
   }
 
+  [class*="overlay-loading"],
+  .dc-dark,
+  .dc-light,
+  [class*="wizard-container"] {
+    background-color: color-mix(in srgb, /*[[surface]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
+  }
+
+  [class*="headerTitle"] {
+    color: /*[[text]]*/ !important;
+  }
+
+  [class*="addDeviceButton-light"],
+  [class*="addDeviceButton-dark"] {
+    color: /*[[text]]*/ !important;
+  }
+
+  [class*="tab-light"],
+  [class*="tab-dark"],
+  [class*="tab-light"] [class*="text-"],
+  [class*="tab-dark"] [class*="text-"] {
+    color: /*[[text]]*/ !important;
+  }
+
+  /*
+   * Product tooltips use a literal rgb(43, 43, 43) bubble. Dark-theme text is
+   * light, so that bubble is fine. Madoka Light's text is dark, so the same
+   * bubble fails. Paint the bubble with the theme surface. The hint tooltip
+   * below overrides this with the button fill, which is dark enough for white.
+   */
+  [class*="tooltip-dark"],
+  [class*="tooltip-light"],
+  [class*="tooltip-dark"]::before,
+  [class*="tooltip-light"]::before,
+  [class*="tooltip-dark"] [class*="content"],
+  [class*="tooltip-light"] [class*="content"] {
+    background-color: /*[[surface]]*/ !important;
+  }
+
+  [class*="tooltip-dark"] :not(svg),
+  [class*="tooltip-light"] :not(svg),
+  [class*="description"] a {
+    color: /*[[text]]*/ !important;
+  }
+
+  /*
+   * Design Center paints the floor-plan hint and the filled primary button
+   * with a literal rgb(71, 151, 255), then puts near-white text on it.
+   * White on that blue is about 2.8:1. The button token is darkened until
+   * white text clears 4.6:1, so these surfaces use that fill.
+   */
+  .hint-tooltip,
+  .hint-tooltip::before,
+  [class*="primary-dark"][class*="is-accessible"],
+  [class*="primary-light"][class*="is-accessible"] {
+    background-color: var(--color-button-primary-bg-emphasis-enabled) !important;
+    color: #ffffff !important;
+  }
+
+  .hint-tooltip,
+  .hint-tooltip :not(svg) {
+    color: #ffffff !important;
+  }
+
   body {
     min-height: 100%;
     background-color: transparent !important;
@@ -126,57 +206,42 @@
   }
 
   html:not([data-theme="dark"]),
-  [data-uids]:not([data-theme="dark"]) {
+  [data-uids]:not([data-theme="dark"]),
+  html[data-theme="dark"],
+  [data-uids][data-theme="dark"] {
+    color-scheme: light !important;
     --color-neutral-00: color-mix(in srgb, #FFFFFF calc(/*[[panel-opacity]]*/ * 0.72 * 100%), transparent) !important;
     --color-neutral-01: color-mix(in srgb, #FFF6F9 calc(/*[[panel-opacity]]*/ * 1 * 100%), transparent) !important;
     --color-neutral-02: color-mix(in srgb, #FFF0F6 calc(/*[[panel-opacity]]*/ * 1 * 100%), transparent) !important;
-    --color-neutral-03: #ffe7f1 !important;
+    --color-neutral-03: #ffe9f2 !important;
     --color-neutral-04: #F0C3D4 !important;
-    --color-neutral-05: #d6a8b9 !important;
-    --color-neutral-06: #bc8c9e !important;
-    --color-neutral-07: #8b6170 !important;
-    --color-neutral-08: #6E3A4C !important;
-    --color-neutral-09: #623244 !important;
-    --color-neutral-10: #592c3d !important;
-    --color-neutral-11: #512838 !important;
+    --color-neutral-05: #826671 !important;
+    --color-neutral-06: #7a5c68 !important;
+    --color-neutral-07: #72525f !important;
+    --color-neutral-08: #6a4856 !important;
+    --color-neutral-09: #623e4c !important;
+    --color-neutral-10: #5a3543 !important;
+    --color-neutral-11: #512b3a !important;
     --color-neutral-12: #4C2434 !important;
-    --color-ublue-01: #fde6ee !important;
-    --color-ublue-02: #fbd0de !important;
-    --color-ublue-03: #f8b7cd !important;
-    --color-ublue-04: #f59bb9 !important;
-    --color-ublue-05: #f27ba3 !important;
-    --color-ublue-06: #F06292 !important;
-    --color-ublue-07: #ca527b !important;
-    --color-ublue-08: #a34363 !important;
-    --color-ublue-09: #783149 !important;
-    --color-ublue-10: #4d1f2f !important;
-  }
-
-  html[data-theme="dark"],
-  [data-uids][data-theme="dark"] {
-    --color-neutral-00: color-mix(in srgb, #FFF6F9 calc(/*[[panel-opacity]]*/ * 0.72 * 100%), transparent) !important;
-    --color-neutral-01: color-mix(in srgb, #fffcfd calc(/*[[panel-opacity]]*/ * 1 * 100%), transparent) !important;
-    --color-neutral-02: color-mix(in srgb, #FFFFFF calc(/*[[panel-opacity]]*/ * 1 * 100%), transparent) !important;
-    --color-neutral-03: #fff6fa !important;
-    --color-neutral-04: #FFF0F6 !important;
-    --color-neutral-05: #f7d7e3 !important;
-    --color-neutral-06: #F0C3D4 !important;
-    --color-neutral-07: #b68597 !important;
-    --color-neutral-08: #6E3A4C !important;
-    --color-neutral-09: #643445 !important;
-    --color-neutral-10: #5b2e3f !important;
-    --color-neutral-11: #522838 !important;
-    --color-neutral-12: #4C2434 !important;
-    --color-ublue-01: #2b121a !important;
-    --color-ublue-02: #4d1f2f !important;
-    --color-ublue-03: #732f46 !important;
-    --color-ublue-04: #9a3f5d !important;
-    --color-ublue-05: #c55078 !important;
-    --color-ublue-06: #F06292 !important;
-    --color-ublue-07: #f27ba3 !important;
-    --color-ublue-08: #f594b5 !important;
-    --color-ublue-09: #f8b1c9 !important;
-    --color-ublue-10: #fbd3e0 !important;
+    --color-ublue-01: #f3e2e8 !important;
+    --color-ublue-02: #e9c9d4 !important;
+    --color-ublue-03: #ddacbd !important;
+    --color-ublue-04: #d08ba3 !important;
+    --color-ublue-05: #c26786 !important;
+    --color-ublue-06: #b64a6f !important;
+    --color-ublue-07: #993e5d !important;
+    --color-ublue-08: #7c324b !important;
+    --color-ublue-09: #5b2538 !important;
+    --color-ublue-10: #3a1824 !important;
+    --color-text-1: #4C2434 !important;
+    --color-text-2: #5a3543 !important;
+    --color-text-3: #6a4856 !important;
+    --color-text-4: #826671 !important;
+    --color-red-06: #c4273a !important;
+    --color-neutral-02-on-color: #FFFFFF !important;
+    --color-button-primary-bg-emphasis-enabled: #bb4c72 !important;
+    --color-button-primary-bg-emphasis-hover: #c36183 !important;
+    --color-button-primary-bg-emphasis-active: #a54364 !important;
   }
 
   input[type="checkbox"],

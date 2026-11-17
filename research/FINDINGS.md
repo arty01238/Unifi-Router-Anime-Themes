@@ -46,14 +46,25 @@ Dark mode (`[data-theme="dark"]`) keeps the same roles and flips lightness:
 
 Green and red scales (`--color-green-06` `#38cc65` / `#37be5f`, `--color-red-06` `#f0383b` / `#ee6368`) are left alone so status stays readable.
 
-A one-off injection that changed only `--color-ublue-06` and a few neutrals turned the Sign in button, the selected radio, links, and the capacity slider to the new accent while rack photos, device icons, and layout stayed intact. Themes 1.2.0 remap the full neutral and ublue scales on `html` and `[data-uids]` and do not style images or form controls.
+A one-off injection that changed only `--color-ublue-06` and a few neutrals turned the Sign in button, the selected radio, links, and the capacity slider to the new accent while rack photos, device icons, and layout stayed intact. Themes remap the full neutral and ublue scales on `html` and `[data-uids]` and do not style images or form controls.
+
+Version 1.2.1 writes one scale into both the light and dark token blocks. Dark themes (Ellen, Jane, Madoka Dark, Homura) write the dark scale (00 darkest, 12 lightest text) and `color-scheme: dark` even when the app is in light mode. Madoka Light writes the light scale into both blocks. Design Center only swaps its hashed `*-light` / `*-dark` classes when `localStorage.motif` is set before boot (`"dark"`, `"light"`, or `"system"`). A userstyle cannot write that key. `npm run screenshots` sets it and reloads, then checks `body[data-theme]`. On a console that is already dark, the dark class set and the dark token block match.
+
+`.hint-tooltip` and the filled primary button hardcode `rgb(71, 151, 255)` with near-white text (about 2.8:1). Those surfaces use `--color-button-primary-bg-emphasis-enabled`, which is the accent darkened until white text clears 4.6:1.
 
 ## Why this can still differ on a UDM SE
 
 Network 10 on UniFi OS 5 is the same design system, but a console build can still:
 
-- set `data-theme="dark"` (the owner's screenshot is dark; Design Center defaults to light)
+- set `data-theme="dark"` (the owner's console is dark; Design Center defaults to light)
 - ship a newer or older token snapshot than Design Center on 17 Nov 2026
-- hardcode a few hashed module colors that do not read `--color-neutral-*`
+- hardcode hashed module colors that do not read `--color-neutral-*`
+- render dashboard widgets Design Center does not have: Top APs, Top Clients, Most Common Devices, Critical Traffic, and the WiFi speed boxes
 
-`npm run screenshots` reloads Design Center at 1920×1080, writes stock and themed PNGs under `research/raw/screenshots/` (gitignored), and copies the rack view to each theme's `preview/dashboard-stock.png` and `preview/dashboard-themed.png`.
+Those Network 10 widgets were not rendered here, so their contrast and icon treatment are unverified.
+
+`npm run screenshots` reloads Design Center at 1920×1080, samples at least 30 text nodes per themed page and fails the run if any content sample is under 4.5:1, samples the bottom-right of the PNG and fails if it is flat, writes stock and themed PNGs under `research/raw/screenshots/` (gitignored), and copies the rack view to each theme's `preview/dashboard-stock.png` and `preview/dashboard-<theme>.png`.
+
+Design Center creates a temporary guest user for each fresh browser profile. `GET https://design.svc.ui.com/user/me` returns `errors.tempAuth.usage` after 20 of those per day, and the app then redirects to the Ubiquiti account login. When that happens the screenshot script cannot boot `data-theme` and exits. A later run the same day has to wait for that quota.
+
+Homura's clock is a repeating conic gradient. A 0.65° tick is a thin mark next to the center and a thick band at the far edge of the viewport, so the wallpaper covers the ticks with the theme background outside a 300px radius.

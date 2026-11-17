@@ -122,51 +122,97 @@ function mixHex(a, b, t) {
   );
 }
 
-function ublueScale(accent, direction) {
+function buttonFill(accent) {
+  let fill = accent;
+  for (let amount = 0; amount <= 0.75 && contrast(fill, "#ffffff") < 4.6; amount += 0.02) {
+    fill = mixHex(accent, "#000000", amount);
+  }
+  return fill;
+}
+
+function ublueScale(colors, direction) {
+  const accent = colors.accent;
+  const floors = direction === "dark"
+    ? [colors.background, colors.surface, colors["surface-raised"]]
+    : ["#ffffff", colors.surface, colors.background];
+  const toward = direction === "dark" ? "#ffffff" : "#000000";
+  let pivot = accent;
+  if (!floors.every((floor) => contrast(accent, floor) >= 4.6)) {
+    for (let amount = 0.02; amount <= 0.85; amount += 0.02) {
+      const candidate = mixHex(accent, toward, amount);
+      if (floors.every((floor) => contrast(candidate, floor) >= 4.6)) {
+        pivot = candidate;
+        break;
+      }
+    }
+  }
   if (direction === "dark") {
-    return [0.82, 0.68, 0.52, 0.36, 0.18, null, 0.16, 0.32, 0.5, 0.72].map((amount, index) => {
-      if (amount == null) return accent;
-      return index < 5 ? mixHex(accent, "#000000", amount) : mixHex(accent, "#ffffff", amount);
+    return [0.82, 0.68, 0.52, 0.36, 0.18, null, 0.12, 0.28, 0.46, 0.68].map((amount, index) => {
+      if (amount == null) return pivot;
+      return index < 5 ? mixHex(pivot, "#000000", amount) : mixHex(pivot, "#ffffff", amount);
     });
   }
   return [0.84, 0.7, 0.54, 0.36, 0.16, null, 0.16, 0.32, 0.5, 0.68].map((amount, index) => {
-    if (amount == null) return accent;
-    return index < 5 ? mixHex(accent, "#ffffff", amount) : mixHex(accent, "#000000", amount);
+    if (amount == null) return pivot;
+    return index < 5 ? mixHex(pivot, "#ffffff", amount) : mixHex(pivot, "#000000", amount);
   });
+}
+
+function lightestReadable(colors) {
+  const floors = ["#ffffff", colors.surface, colors.background, colors["surface-raised"]];
+  let best = colors.text;
+  for (let amount = 0; amount <= 1; amount += 0.02) {
+    const candidate = mixHex(colors.text, "#ffffff", amount);
+    if (floors.every((floor) => contrast(candidate, floor) >= 4.6)) best = candidate;
+  }
+  return best;
+}
+
+function darkestReadable(colors) {
+  const floors = [colors.background, colors.surface, colors["surface-raised"]];
+  let best = colors.text;
+  for (let amount = 0; amount <= 1; amount += 0.02) {
+    const candidate = mixHex(colors.text, colors.background, amount);
+    const readable = floors.every((floor) => contrast(candidate, floor) >= 4.6);
+    if (readable) best = candidate;
+  }
+  return best;
 }
 
 function neutralScale(colors, direction) {
   if (direction === "dark") {
+    const readable = darkestReadable(colors);
     return [
       colors.background,
       mixHex(colors.background, colors.surface, 0.7),
       colors.surface,
       mixHex(colors.surface, colors["surface-raised"], 0.6),
       colors["surface-raised"],
-      mixHex(colors["surface-raised"], colors.border, 0.55),
-      colors.border,
-      mixHex(colors.border, colors["text-muted"], 0.45),
-      colors["text-muted"],
-      mixHex(colors["text-muted"], colors.text, 0.28),
-      mixHex(colors["text-muted"], colors.text, 0.55),
-      mixHex(colors["text-muted"], colors.text, 0.82),
+      mixHex(readable, colors.text, 0.05),
+      mixHex(readable, colors.text, 0.2),
+      mixHex(readable, colors.text, 0.35),
+      mixHex(readable, colors.text, 0.5),
+      mixHex(readable, colors.text, 0.65),
+      mixHex(readable, colors.text, 0.78),
+      mixHex(readable, colors.text, 0.9),
       colors.text,
     ];
   }
   if (colors.surface.toLowerCase() === "#ffffff" || colors.scheme === "light") {
+    const readable = lightestReadable(colors);
     return [
       colors.surface,
       colors.background,
       colors["surface-raised"],
-      mixHex(colors["surface-raised"], colors["background-2"], 0.55),
+      mixHex(colors["surface-raised"], colors["background-2"], 0.45),
       colors.border,
-      mixHex(colors.border, colors["text-muted"], 0.2),
-      mixHex(colors.border, colors["text-muted"], 0.4),
-      mixHex(colors["text-muted"], "#ffffff", 0.2),
-      colors["text-muted"],
-      mixHex(colors["text-muted"], colors.text, 0.35),
-      mixHex(colors["text-muted"], colors.text, 0.62),
-      mixHex(colors["text-muted"], colors.text, 0.84),
+      readable,
+      mixHex(readable, colors.text, 0.15),
+      mixHex(readable, colors.text, 0.3),
+      mixHex(readable, colors.text, 0.45),
+      mixHex(readable, colors.text, 0.6),
+      mixHex(readable, colors.text, 0.75),
+      mixHex(readable, colors.text, 0.9),
       colors.text,
     ];
   }
@@ -189,7 +235,7 @@ function neutralScale(colors, direction) {
 
 function tokenDeclarations(colors, direction) {
   const neutral = neutralScale(colors, direction);
-  const ublue = ublueScale(colors.accent, direction);
+  const ublue = ublueScale(colors, direction);
   const lines = neutral.map((hex, index) => {
     const name = `--color-neutral-${String(index).padStart(2, "0")}`;
     if (index <= 2) {
@@ -201,20 +247,29 @@ function tokenDeclarations(colors, direction) {
   ublue.forEach((hex, index) => {
     lines.push(`--color-ublue-${String(index + 1).padStart(2, "0")}: ${hex} !important;`);
   });
+  lines.push(`--color-text-1: ${neutral[12]} !important;`);
+  lines.push(`--color-text-2: ${neutral[10]} !important;`);
+  lines.push(`--color-text-3: ${neutral[8]} !important;`);
+  lines.push(`--color-text-4: ${neutral[5]} !important;`);
+  lines.push(`--color-red-06: ${direction === "light" ? "#c4273a" : "#ff9aa0"} !important;`);
+  lines.push(`--color-neutral-02-on-color: ${colors.surface} !important;`);
+  const fill = buttonFill(colors.accent);
+  lines.push(`--color-button-primary-bg-emphasis-enabled: ${fill} !important;`);
+  lines.push(`--color-button-primary-bg-emphasis-hover: ${mixHex(fill, "#ffffff", 0.12)} !important;`);
+  lines.push(`--color-button-primary-bg-emphasis-active: ${mixHex(fill, "#000000", 0.12)} !important;`);
   return { neutral, lines };
 }
 
 function tokenCss(theme) {
-  const light = tokenDeclarations({ ...theme.colors, scheme: theme.scheme }, "light");
-  const dark = tokenDeclarations({ ...theme.colors, scheme: theme.scheme }, "dark");
+  const direction = theme.scheme === "light" ? "light" : "dark";
+  const scale = tokenDeclarations({ ...theme.colors, scheme: theme.scheme }, direction);
+  const body = scale.lines.join("\n  ");
   return `html:not([data-theme="dark"]),
-[data-uids]:not([data-theme="dark"]) {
-  ${light.lines.join("\n  ")}
-}
-
+[data-uids]:not([data-theme="dark"]),
 html[data-theme="dark"],
 [data-uids][data-theme="dark"] {
-  ${dark.lines.join("\n  ")}
+  color-scheme: ${direction} !important;
+  ${body}
 }`;
 }
 
@@ -568,7 +623,7 @@ function assertThemes() {
     if (theme.panel < 0.7 || theme.panel > 0.8) {
       throw new Error(`${theme.id} panel opacity ${theme.panel} is outside 0.70-0.80`);
     }
-    for (const direction of ["dark", "light"]) {
+    for (const direction of [theme.scheme === "light" ? "light" : "dark"]) {
       const scale = tokenDeclarations({ ...theme.colors, scheme: theme.scheme }, direction).neutral;
       for (const index of [12, 10, 8]) {
         const ratio = contrast(scale[index], scale[1]);
