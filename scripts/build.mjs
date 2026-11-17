@@ -105,8 +105,7 @@ function userCss(theme) {
   const motif = theme.wallpaper.join(",\n    ");
   const css = baseCss
     .replaceAll("__UAT_SCHEME__", theme.scheme)
-    .replaceAll("__UAT_MOTIF__", motif)
-    .replaceAll("__UAT_EDGE__", theme.edge);
+    .replaceAll("__UAT_MOTIF__", motif);
   if (css.includes("__UAT_")) {
     throw new Error(`Unresolved template token in ${theme.id}`);
   }
@@ -436,17 +435,28 @@ function assertThemes() {
     if (!/\.(png|jpe?g|webp)$/i.test(new URL(art.url).pathname)) {
       throw new Error(`${theme.id} artwork URL is not an image path`);
     }
-    if (theme.edge.includes("{") || theme.edge.includes("}")) {
-      throw new Error(`${theme.id} edge must be declarations only`);
-    }
     const button = contrast(theme.colors["on-accent"], theme.colors.accent);
     const body = contrast(theme.colors.text, theme.colors.surface);
+    const muted = contrast(theme.colors["text-muted"], theme.colors.surface);
     if (button < 4.5) {
       throw new Error(`${theme.id} accent button contrast ${button.toFixed(2)} is below 4.5`);
     }
     if (body < 4.5) {
       throw new Error(`${theme.id} text on surface contrast ${body.toFixed(2)} is below 4.5`);
     }
+    if (muted < 4.5) {
+      throw new Error(`${theme.id} muted text on surface contrast ${muted.toFixed(2)} is below 4.5`);
+    }
+    if (theme.panel < 0.7 || theme.panel > 0.8) {
+      throw new Error(`${theme.id} panel opacity ${theme.panel} is outside 0.70-0.80`);
+    }
+  }
+  const baseRules = baseCss.replace(/\/\*[\s\S]*?\*\//g, "");
+  if (/\[class\*=|\bbody \*|^\s*\*\s*\{/m.test(baseRules)) {
+    throw new Error("base.css uses a broad catch-all selector");
+  }
+  if (/(?:^|[\s,{])(?:img|svg|picture|canvas)\b/.test(baseRules)) {
+    throw new Error("base.css must not style img, svg, picture, or canvas");
   }
   const accents = new Set(themes.map((theme) => theme.colors.accent.toLowerCase()));
   if (accents.size !== themes.length) {

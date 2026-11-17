@@ -52,15 +52,15 @@
   <rect x="40" y="36" width="800" height="448" rx="16" fill="none" stroke="#31445F"/>
   <rect x="40" y="36" width="72" height="448" fill="#070B14"/>
   <circle cx="76" cy="78" r="8" fill="#FF3D6E"/>
-  <circle cx="76" cy="114" r="8" fill="#A3B0C4"/>
-  <circle cx="76" cy="150" r="8" fill="#A3B0C4"/>
+  <circle cx="76" cy="114" r="8" fill="#D5DCE6"/>
+  <circle cx="76" cy="150" r="8" fill="#D5DCE6"/>
   <circle cx="76" cy="186" r="8" fill="#FFB3C4"/>
   <rect x="128" y="52" width="220" height="14" rx="4" fill="#F5F7FB" opacity="0.9"/>
-  <rect x="128" y="74" width="140" height="8" rx="3" fill="#A3B0C4"/>
+  <rect x="128" y="74" width="140" height="8" rx="3" fill="#D5DCE6"/>
   <rect x="148" y="120" width="200" height="110" rx="10" fill="#1A2740" stroke="#31445F"/>
   <rect x="368" y="120" width="200" height="110" rx="10" fill="#1A2740" stroke="#31445F"/>
   <rect x="588" y="120" width="220" height="110" rx="10" fill="#1A2740" stroke="#31445F"/>
-  <rect x="168" y="148" width="90" height="8" rx="3" fill="#A3B0C4"/>
+  <rect x="168" y="148" width="90" height="8" rx="3" fill="#D5DCE6"/>
   <rect x="168" y="168" width="120" height="18" rx="4" fill="#F5F7FB"/>
   <rect x="388" y="168" width="70" height="36" rx="4" fill="#FF3D6E"/>
   <rect x="466" y="184" width="70" height="20" rx="4" fill="#FFB3C4"/>
@@ -75,7 +75,7 @@
   <rect x="168" y="360" width="420" height="8" rx="3" fill="#31445F"/>
   <rect x="148" y="430" width="120" height="32" rx="8" fill="#FF3D6E"/>
   <rect x="280" y="430" width="120" height="32" rx="8" fill="none" stroke="#31445F"/>
-  <text x="96" y="492" fill="#A3B0C4" font-family="ui-sans-serif, sans-serif" font-size="13">Zenless Zone Zero</text>
+  <text x="96" y="492" fill="#D5DCE6" font-family="ui-sans-serif, sans-serif" font-size="13">Zenless Zone Zero</text>
   <text x="400" y="492" fill="#F5F7FB" font-family="ui-sans-serif, sans-serif" font-size="16" font-weight="700">Ellen Joe</text>
   <rect x="96" y="470" width="28" height="16" rx="3" fill="#070B14"/>
   <rect x="132" y="470" width="28" height="16" rx="3" fill="#10192A"/>

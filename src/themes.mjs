@@ -8,7 +8,7 @@
  * See the Contributing section in the root README.
  */
 
-export const version = "1.0.0";
+export const version = "1.1.0";
 
 export const repo = "arty01238/Unifi-Router-Anime-Themes";
 
@@ -66,7 +66,6 @@ const artwork = {
  *   dim: number,
  *   panel: number,
  *   wallpaper: string[],
- *   edge: string,
  * }>}
  */
 export const themes = [
@@ -88,7 +87,7 @@ export const themes = [
     motifId: "teeth",
     motifName: "Sawtooth edge",
     motifNote:
-      "A repeating red and white zigzag sits on the top edge of the viewport. The wallpaper is a navy gradient cut by one sharp red diagonal. Both are plain CSS gradients, not character art.",
+      "A 2px accent line sits on the top edge. Behind the portrait, one sharp red diagonal crosses a navy field. The portrait is anchored bottom-right.",
     colors: {
       background: "#070B14",
       "background-2": "#102033",
@@ -96,29 +95,18 @@ export const themes = [
       "surface-raised": "#1A2740",
       border: "#31445F",
       text: "#F5F7FB",
-      "text-muted": "#A3B0C4",
+      "text-muted": "#D5DCE6",
       accent: "#FF3D6E",
       "accent-2": "#FFB3C4",
       highlight: "#F7F7F5",
       "on-accent": "#2A0A14",
       "dim-color": "#000000",
     },
-    dim: 0.28,
-    panel: 0.86,
+    dim: 0.12,
+    panel: 0.75,
     wallpaper: [
-      "linear-gradient(112deg, transparent 0 44%, color-mix(in srgb, /*[[accent]]*/ 34%, transparent) 44% 44.45%, transparent 44.45% 68%, color-mix(in srgb, /*[[highlight]]*/ 16%, transparent) 68% 68.28%, transparent 68.28%)",
-      "radial-gradient(circle at 100% 100%, color-mix(in srgb, /*[[accent]]*/ 22%, transparent), transparent 42%)",
+      "linear-gradient(112deg, transparent 0 44%, color-mix(in srgb, /*[[accent]]*/ 28%, transparent) 44% 44.4%, transparent 44.4%)",
     ],
-    edge: `top: 0;
-  right: 0;
-  left: 0;
-  height: 14px;
-  background-image:
-    linear-gradient(135deg, /*[[accent]]*/ 50%, transparent 50%),
-    linear-gradient(45deg, /*[[highlight]]*/ 50%, transparent 50%);
-  background-size: 14px 14px, 14px 14px;
-  background-position: 0 0, 7px 0;
-  background-repeat: repeat-x, repeat-x;`,
   },
   {
     id: "jane-doe",
@@ -138,7 +126,7 @@ export const themes = [
     motifId: "pinstripe",
     motifName: "Gold pinstripe",
     motifNote:
-      "A thin violet-gold-pink bar runs along the top. The wallpaper is a charcoal field with a faint gold diagonal pinstripe and a violet corner glow. Geometric only.",
+      "A 2px accent line sits on the top edge. Behind the portrait, a faint gold pinstripe and a violet glow sit on charcoal. The portrait is anchored bottom-right.",
     colors: {
       background: "#100E14",
       "background-2": "#1C1426",
@@ -146,26 +134,20 @@ export const themes = [
       "surface-raised": "#2A2236",
       border: "#4C3E62",
       text: "#F7F3EC",
-      "text-muted": "#B7A9C6",
+      "text-muted": "#E4DCEC",
       accent: "#B07CFF",
       "accent-2": "#E2B657",
       highlight: "#FF7AB6",
       "on-accent": "#1A1024",
       "dim-color": "#000000",
     },
-    dim: 0.3,
-    panel: 0.86,
+    dim: 0.12,
+    panel: 0.75,
     wallpaper: [
       "repeating-linear-gradient(135deg, transparent 0 22px, color-mix(in srgb, /*[[accent-2]]*/ 28%, transparent) 22px 23px)",
       "radial-gradient(ellipse at 0% 100%, color-mix(in srgb, /*[[accent]]*/ 32%, transparent), transparent 48%)",
-      "radial-gradient(ellipse at 100% 0%, color-mix(in srgb, /*[[highlight]]*/ 18%, transparent), transparent 36%)",
+      "radial-gradient(ellipse at 0% 0%, color-mix(in srgb, /*[[highlight]]*/ 18%, transparent), transparent 36%)",
     ],
-    edge: `top: 0;
-  right: 0;
-  left: 0;
-  height: 4px;
-  background-image: linear-gradient(90deg, /*[[accent]]*/, /*[[accent-2]]*/, /*[[highlight]]*/, /*[[accent-2]]*/, /*[[accent]]*/);
-  box-shadow: 0 0 18px color-mix(in srgb, /*[[accent]]*/ 65%, transparent);`,
   },
   {
     id: "madoka-kaname-light",
@@ -185,7 +167,7 @@ export const themes = [
     motifId: "petals",
     motifName: "Petals and ribbon",
     motifNote:
-      "A scalloped pink edge runs across the top. The corner holds a cluster of plain circles (a generic flower) and two ellipse strokes that read as a ribbon bow. This is not the soul gem, the series logo, or any official illustration.",
+      "A 2px accent line sits on the top edge. A cluster of plain circles and two ellipse strokes (a generic flower and ribbon) sits in the lower-left, behind the portrait. This is not the soul gem, the series logo, or any official illustration.",
     colors: {
       background: "#FFF6F9",
       "background-2": "#FFE0EC",
@@ -193,15 +175,15 @@ export const themes = [
       "surface-raised": "#FFF0F6",
       border: "#F0C3D4",
       text: "#4C2434",
-      "text-muted": "#8E5A6C",
+      "text-muted": "#6E3A4C",
       accent: "#F06292",
       "accent-2": "#D7A441",
       highlight: "#FFFDF8",
       "on-accent": "#3F1826",
       "dim-color": "#6A3044",
     },
-    dim: 0.06,
-    panel: 0.94,
+    dim: 0.04,
+    panel: 0.75,
     wallpaper: [
       "radial-gradient(circle at 9% 86%, color-mix(in srgb, /*[[accent]]*/ 55%, transparent) 0 22px, transparent 23px)",
       "radial-gradient(circle at 14% 78%, color-mix(in srgb, /*[[accent]]*/ 40%, transparent) 0 30px, transparent 31px)",
@@ -210,13 +192,6 @@ export const themes = [
       "radial-gradient(ellipse 120px 36px at 20% 82%, transparent 58%, color-mix(in srgb, /*[[accent-2]]*/ 80%, transparent) 60% 68%, transparent 70%)",
       "radial-gradient(ellipse 120px 36px at 1% 82%, transparent 58%, color-mix(in srgb, /*[[accent]]*/ 55%, transparent) 60% 68%, transparent 70%)",
     ],
-    edge: `top: 0;
-  right: 0;
-  left: 0;
-  height: 18px;
-  background-image: radial-gradient(circle at 14px 18px, /*[[accent]]*/ 9px, transparent 10px);
-  background-size: 32px 18px;
-  background-repeat: repeat-x;`,
   },
   {
     id: "madoka-kaname-dark",
@@ -236,7 +211,7 @@ export const themes = [
     motifId: "petals",
     motifName: "Petals and ribbon",
     motifNote:
-      "Same original petal scallop and ribbon ellipses as the light variant, recolored for a dark console. Not official artwork.",
+      "A 2px accent line sits on the top edge. The same flower and ribbon shapes as the light variant sit in the lower-left, behind the portrait. Not official artwork.",
     colors: {
       background: "#160C12",
       "background-2": "#2C1520",
@@ -244,15 +219,15 @@ export const themes = [
       "surface-raised": "#3C2030",
       border: "#6E4456",
       text: "#FFE9F1",
-      "text-muted": "#D2A8B8",
+      "text-muted": "#F3D5E0",
       accent: "#FF8FB7",
       "accent-2": "#E6C27A",
       highlight: "#FFF4E4",
       "on-accent": "#2A1018",
       "dim-color": "#000000",
     },
-    dim: 0.32,
-    panel: 0.88,
+    dim: 0.12,
+    panel: 0.75,
     wallpaper: [
       "radial-gradient(circle at 9% 86%, color-mix(in srgb, /*[[accent]]*/ 50%, transparent) 0 22px, transparent 23px)",
       "radial-gradient(circle at 14% 78%, color-mix(in srgb, /*[[accent]]*/ 34%, transparent) 0 30px, transparent 31px)",
@@ -261,13 +236,6 @@ export const themes = [
       "radial-gradient(ellipse 120px 36px at 20% 82%, transparent 58%, color-mix(in srgb, /*[[accent-2]]*/ 75%, transparent) 60% 68%, transparent 70%)",
       "radial-gradient(ellipse 120px 36px at 1% 82%, transparent 58%, color-mix(in srgb, /*[[accent]]*/ 50%, transparent) 60% 68%, transparent 70%)",
     ],
-    edge: `top: 0;
-  right: 0;
-  left: 0;
-  height: 18px;
-  background-image: radial-gradient(circle at 14px 18px, /*[[accent]]*/ 9px, transparent 10px);
-  background-size: 32px 18px;
-  background-repeat: repeat-x;`,
   },
   {
     id: "homura-akemi",
@@ -283,11 +251,11 @@ export const themes = [
     description:
       "Deep purple and black UniFi OS theme with violet and silver clock marks, inspired by Homura Akemi. Browser-only. Unofficial fan work; does not modify the router.",
     summary:
-      "Black-violet panels, silver tick marks, and a partial clock face in the corner. Time, without copying the shield.",
+      "Black-violet panels and a partial clock in the upper-left. The portrait sits bottom-right. Time, without copying the shield.",
     motifId: "clock",
     motifName: "Clock arc",
     motifNote:
-      "The top edge is a violet hairline over silver ruler ticks. The lower-right wallpaper is a generic clock: a conic tick ring and two circles. It is not Homura's shield and not a series symbol.",
+      "A 2px accent line sits on the top edge. A generic clock (a conic tick ring and two circles) sits in the upper-left, behind the portrait. It is not Homura's shield and not a series symbol.",
     colors: {
       background: "#09070F",
       "background-2": "#161226",
@@ -295,28 +263,18 @@ export const themes = [
       "surface-raised": "#221C34",
       border: "#3C3458",
       text: "#ECEAF4",
-      "text-muted": "#A79FBE",
+      "text-muted": "#DDD8EE",
       accent: "#7E66FF",
       "accent-2": "#C8CDD8",
       highlight: "#D9D0FF",
       "on-accent": "#140C22",
       "dim-color": "#000000",
     },
-    dim: 0.34,
-    panel: 0.88,
+    dim: 0.12,
+    panel: 0.75,
     wallpaper: [
-      "repeating-conic-gradient(from -1deg at 92% 112%, color-mix(in srgb, /*[[accent-2]]*/ 70%, transparent) 0 0.65deg, transparent 0.65deg 30deg)",
-      "radial-gradient(circle at 92% 112%, transparent 0 168px, color-mix(in srgb, /*[[accent-2]]*/ 55%, transparent) 169px 171px, transparent 172px 214px, color-mix(in srgb, /*[[accent]]*/ 45%, transparent) 215px 217px, transparent 218px)",
+      "repeating-conic-gradient(from -1deg at 6% -8%, color-mix(in srgb, /*[[accent-2]]*/ 70%, transparent) 0 0.65deg, transparent 0.65deg 30deg)",
+      "radial-gradient(circle at 6% -8%, transparent 0 140px, color-mix(in srgb, /*[[accent-2]]*/ 55%, transparent) 141px 143px, transparent 144px 186px, color-mix(in srgb, /*[[accent]]*/ 45%, transparent) 187px 189px, transparent 190px)",
     ],
-    edge: `top: 0;
-  right: 0;
-  left: 0;
-  height: 12px;
-  background-image:
-    linear-gradient(/*[[accent]]*/, /*[[accent]]*/),
-    repeating-linear-gradient(90deg, /*[[accent-2]]*/ 0 1px, transparent 1px 16px);
-  background-size: 100% 2px, 100% 9px;
-  background-position: top left, bottom left;
-  background-repeat: no-repeat, no-repeat;`,
   },
 ];

@@ -1,6 +1,6 @@
 # Homura Akemi
 
-Puella Magi Madoka Magica. Black-violet panels, silver tick marks, and a partial clock face in the corner. Time, without copying the shield.
+Puella Magi Madoka Magica. Black-violet panels and a partial clock in the upper-left. The portrait sits bottom-right. Time, without copying the shield.
 
 ![Homura Akemi preview](preview/preview.svg)
 
@@ -20,7 +20,7 @@ To change it, open Stylus → the style's gear icon and set **Background image**
 
 ## Motif
 
-**Clock arc.** The top edge is a violet hairline over silver ruler ticks. The lower-right wallpaper is a generic clock: a conic tick ring and two circles. It is not Homura's shield and not a series symbol.
+**Clock arc.** A 2px accent line sits on the top edge. A generic clock (a conic tick ring and two circles) sits in the upper-left, behind the portrait. It is not Homura's shield and not a series symbol.
 
 ## Palette
 
@@ -28,7 +28,7 @@ Original hex values, not an official color guide. Stylus exposes each one as a `
 
 ### Palette
 
-Black-violet panels, silver tick marks, and a partial clock face in the corner. Time, without copying the shield.
+Black-violet panels and a partial clock in the upper-left. The portrait sits bottom-right. Time, without copying the shield.
 
 | Token | Hex |
 | --- | --- |
@@ -38,14 +38,14 @@ Black-violet panels, silver tick marks, and a partial clock face in the corner. 
 | Raised panels | `#221C34` |
 | Borders | `#3C3458` |
 | Text | `#ECEAF4` |
-| Muted text | `#A79FBE` |
+| Muted text | `#DDD8EE` |
 | Accent | `#7E66FF` |
 | Secondary accent | `#C8CDD8` |
 | Highlight | `#D9D0FF` |
 | Text on accent | `#140C22` |
 | Dim color | `#000000` |
 
-Dim default `0.34`. Panel opacity default `0.88`. Color scheme `dark`.
+Dim default `0.12`. Panel opacity default `0.75`. Color scheme `dark`.
 
 ## Files
 

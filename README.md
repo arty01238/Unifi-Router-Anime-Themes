@@ -66,28 +66,26 @@ Updates: Stylus can track the install URL (`@updateURL` points at the same raw f
 
 Each `.user.css` is generated from [`src/base.css`](src/base.css) plus a palette and motif in [`src/themes.mjs`](src/themes.mjs). The shared base:
 
-- Overrides the legacy UniFi custom properties published in the [2019 UniFi-Dark gist](https://gist.github.com/tkuennen/cf7f3ad4984f6d97ad87452c66a168af) (`--ubnt-color-*`, `--main-panel-background-color`, `--button-primary-*`, `--navigation-*`, `--modal-*`, `--table-*`, and the related component tokens). Icon `url()` tokens from that gist are not cleared.
-- Paints `html` / `body`, `#root`, `#app`, semantic elements (`main`, `nav`, `header`, `dialog`, tables, inputs), and ARIA roles.
-- Matches partial class names (`sidebar`, `navigation`, `header`, `card`, `panel`, `modal`, `dropdown`, …) and a few legacy class names (`.modular`, `.appTable`, `.appButton--primary`).
-- Draws an original CSS motif and reads your Stylus variables for accent colors, the background image, dim, blur, and panel opacity.
+- Sets UniFi Design System color tokens on `html` (`--desktop-color-text-1/2/3`, `--desktop-color-depth-bg-0/1/2`, `--desktop-color-global-primary`, `--desktop-color-ublue-06`) and the older `--ubnt-color-*` / `--button-primary-*` / `--main-panel-background-color` names. Neutral scales and icon `url()` tokens are left alone.
+- Paints the page, `nav` / `aside` / `header`, and `section` / `article` / `dialog` only. Panels default to about 75% opacity. Cards and dialogs also get a backdrop blur. The sidebar does not, so the product photo can paint.
+- Places the portrait at the bottom-right (`background-size: contain`) under a light dim, with a 2px accent line instead of a patterned strip.
+- Colors native checkboxes, radios, and sliders with `accent-color` only.
 
 `@-moz-document` matches `domain("unifi.ui.com")` plus `domain()` for the two host variables. Stylus's `uso` preprocessor substitutes `/*[[console-host]]*/` before it parses the document rule (see `src/js/worker/pre-uso.js` in the Stylus repo), so the host is a real Configure field and not only a comment.
 
 ## Known limitations
 
-These styles were **not** checked against a live UDM Pro or UDM Pro SE. The console requires an account, and `unifi.ui.com` is not a public demo. Selector choices come from the public gist above, from community notes that the modern UI is a React app (including a Network 8.x report of hashed `css-network-*` classes with hard-coded backgrounds), and from a search of GitHub and userstyles.world that did not turn up a maintained userstyle for the current shell.
+Version 1.1.0 was adjusted after a UniFi OS 5.0.x / Network 10.x Dashboard screenshot from a UDM SE. Earlier rules matched partial class names and every element under `body`, which blanked device icons and the sidebar product image. The console still has to be checked by someone with a gateway; `unifi.ui.com` is not a public demo.
 
 Expect these gaps:
 
-- **Hashed classes** (`css-xxxxx`, `css-network-*`) change between UniFi OS builds and are not listed one by one. A white card with a hashed class can stay white. The practical workaround is the console's own Dark (or Light) appearance, which fills in the holes.
-- **Shadow DOM**, **canvas** charts, **WebGL** maps, and author styles with `!important` inline can ignore a userstyle.
-- **Status colors** (online green, offline red, warning amber) are not globally remapped. Danger and success buttons are forced back to red and green when their class name says so. Other status text can still pick up the theme text color if it only inherited `color`.
-- The legacy token block is applied broadly, including on `body *`, so an inner theme node cannot quietly restore Ubiquiti blue. A component that reused one of those exact token names for a one-off color will follow the theme instead.
-- `[class*="card"]` and similar fragments can restyle an unrelated node whose class happens to contain that substring.
-- `body` is `position: relative; z-index: 0` so the wallpaper can sit behind the UI without falling through the canvas. That has not been observed to trap `position: fixed` (fixed positioning is not contained by `z-index` alone), but it is a behavior change.
+- Surfaces that do not use the tokens above, and are not `nav`, `aside`, `header`, `section`, `article`, or `dialog`, keep the console's own colors. Hashed classes (`css-xxxxx`, `css-network-*`) are not targeted.
+- **Shadow DOM**, **canvas** charts, **WebGL** maps, and author styles with inline `!important` can ignore a userstyle.
+- **Status colors** (online green, offline red, warning amber) and icon art are not remapped.
+- An inner node that sets the same custom property still wins over the value on `html`.
 - Hosts other than `unifi.ui.com` and the two Configure fields are not matched. Direct-remote hostnames belong in **Second host**.
 - The SSO page `account.ui.com` is not themed.
-- `color-mix()` is required (Chrome 111+, Firefox 113+, Safari 16.2+). That is the current Stylus browser set; older browsers will ignore the mixed colors.
+- `color-mix()` is required (Chrome 111+, Firefox 113+, Safari 16.2+).
 
 After a UniFi OS update, if a page regresses, open an issue with the OS version and what broke. A class name from devtools is enough; do not paste passwords or WAN addresses.
 

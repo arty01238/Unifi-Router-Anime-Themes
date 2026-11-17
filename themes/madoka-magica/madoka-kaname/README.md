@@ -23,7 +23,7 @@ To change it, open Stylus → the style's gear icon and set **Background image**
 
 ## Motif
 
-**Petals and ribbon.** A scalloped pink edge runs across the top. The corner holds a cluster of plain circles (a generic flower) and two ellipse strokes that read as a ribbon bow. This is not the soul gem, the series logo, or any official illustration.
+**Petals and ribbon.** A 2px accent line sits on the top edge. A cluster of plain circles and two ellipse strokes (a generic flower and ribbon) sits in the lower-left, behind the portrait. This is not the soul gem, the series logo, or any official illustration.
 
 ## Palette
 
@@ -41,14 +41,14 @@ Airy pink, white panels, and a light gold ribbon. Pair it with UniFi's built-in 
 | Raised panels | `#FFF0F6` |
 | Borders | `#F0C3D4` |
 | Text | `#4C2434` |
-| Muted text | `#8E5A6C` |
+| Muted text | `#6E3A4C` |
 | Accent | `#F06292` |
 | Secondary accent | `#D7A441` |
 | Highlight | `#FFFDF8` |
 | Text on accent | `#3F1826` |
 | Dim color | `#6A3044` |
 
-Dim default `0.06`. Panel opacity default `0.94`. Color scheme `light`.
+Dim default `0.04`. Panel opacity default `0.75`. Color scheme `light`.
 
 ### Dark
 
@@ -62,14 +62,14 @@ The same ribbon and petal motif on a rose-black field. Pair it with UniFi's buil
 | Raised panels | `#3C2030` |
 | Borders | `#6E4456` |
 | Text | `#FFE9F1` |
-| Muted text | `#D2A8B8` |
+| Muted text | `#F3D5E0` |
 | Accent | `#FF8FB7` |
 | Secondary accent | `#E6C27A` |
 | Highlight | `#FFF4E4` |
 | Text on accent | `#2A1018` |
 | Dim color | `#000000` |
 
-Dim default `0.32`. Panel opacity default `0.88`. Color scheme `dark`.
+Dim default `0.12`. Panel opacity default `0.75`. Color scheme `dark`.
 
 ## Files
 

@@ -20,7 +20,7 @@ To change it, open Stylus → the style's gear icon and set **Background image**
 
 ## Motif
 
-**Sawtooth edge.** A repeating red and white zigzag sits on the top edge of the viewport. The wallpaper is a navy gradient cut by one sharp red diagonal. Both are plain CSS gradients, not character art.
+**Sawtooth edge.** A 2px accent line sits on the top edge. Behind the portrait, one sharp red diagonal crosses a navy field. The portrait is anchored bottom-right.
 
 ## Palette
 
@@ -38,14 +38,14 @@ Night-ocean navy and black, a cold red slash, and a sawtooth edge. Sharp and a l
 | Raised panels | `#1A2740` |
 | Borders | `#31445F` |
 | Text | `#F5F7FB` |
-| Muted text | `#A3B0C4` |
+| Muted text | `#D5DCE6` |
 | Accent | `#FF3D6E` |
 | Secondary accent | `#FFB3C4` |
 | Highlight | `#F7F7F5` |
 | Text on accent | `#2A0A14` |
 | Dim color | `#000000` |
 
-Dim default `0.28`. Panel opacity default `0.86`. Color scheme `dark`.
+Dim default `0.12`. Panel opacity default `0.75`. Color scheme `dark`.
 
 ## Files
 

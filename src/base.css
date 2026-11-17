@@ -1,299 +1,195 @@
 /*
  * Shared UniFi OS canvas. Generated into each .user.css by scripts/build.mjs.
  *
- * How styling is applied, and what was actually verified:
+ * Tuned after a UniFi OS 5.0.x / Network 10.x Dashboard screenshot on a UDM SE.
+ * That page broke when broad rules painted icon tiles, cleared background
+ * images, and forced color onto every node (currentColor icons went blank,
+ * and the sidebar product <img alt="UDM SE"> lost its picture).
  *
- * 1. Legacy design tokens. A public 2019 Stylus/CSS gist (tkuennen,
- *    "UniFi-Dark.css") lists the Angular-era UniFi Network custom properties:
- *    --ubnt-color-*, --main-panel-background-color, --navigation-*,
- *    --button-primary-*, --modal-*, --table-*, and the related component
- *    tokens. Those names are overridden here. Views that still read them
- *    follow the palette. Icon url() tokens from that gist are intentionally
- *    not touched, so checkmarks and search icons are not blanked out.
- * 2. Semantic HTML and ARIA: html, body, #root, #app, main, nav, header,
- *    dialog, table, form controls, [role="navigation"], [role="dialog"],
- *    [aria-selected], [aria-current].
- * 3. Partial class fragments that survive CSS-module hashing when the
- *    component name is still in the class string (sidebar, navigation,
- *    header, card, panel, modal, dropdown, and the legacy class names
- *    .modular, .appTable, .appButton--primary). A 2021 community note
- *    showed surfaces whose class contained "light". A Network 8.x report
- *    showed hashed classes shaped like css-network-<hash> with a literal
- *    background color; those hashes cannot be targeted and will stay stock.
- * 4. html/body wallpaper, a top motif, scrollbars, selection, and accent-color
- *    on native checkboxes, radios, and ranges.
+ * This file does not set background, filter, opacity, or color on img, svg,
+ * picture, or canvas, and it does not use `*`, `div`, or [class*="..."].
+ * Form controls are left to the console except accent-color and the accent
+ * custom properties below.
  *
- * Not verified on a live Dream Machine. UniFi OS updates can rename markup.
- * Shadow DOM, canvas charts, maps, and author inline !important styles can
- * ignore this file. Report breakage with the UniFi OS version.
+ * Tokens, in the order the console is likely to read them:
+ * - UniFi Design System names published with @ubnt/uids-tokens:
+ *   --desktop-color-text-1/2/3, --desktop-color-depth-bg-0/1/2,
+ *   --desktop-color-global-primary, --desktop-color-ublue-06.
+ *   Network maps palette.neutral / cssVariables uiNN onto
+ *   --desktop-color-neutral-NN; those neutrals are left alone so icon
+ *   plates and status scales keep the console's own colors.
+ * - Legacy Angular-era names from the public 2019 UniFi-Dark gist
+ *   (--ubnt-color-*, --main-panel-background-color, --navigation-background-color,
+ *   --button-primary-*, --toggle-background-on-color). Icon url() tokens
+ *   from that gist are not set.
  */
 
 html {
   min-height: 100%;
   background-color: /*[[background]]*/ !important;
-  color-scheme: __UAT_SCHEME__ !important;
+  color-scheme: __UAT_SCHEME__;
   color: /*[[text]]*/;
+  scrollbar-color: /*[[accent-2]]*/ /*[[surface]]*/;
+  --desktop-color-text-1: /*[[text]]*/ !important;
+  --desktop-color-text-2: /*[[text-muted]]*/ !important;
+  --desktop-color-text-3: /*[[text-muted]]*/ !important;
+  --desktop-color-depth-bg-0: transparent !important;
+  --desktop-color-depth-bg-1: color-mix(in srgb, /*[[surface]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
+  --desktop-color-depth-bg-2: color-mix(in srgb, /*[[surface-raised]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
+  --desktop-color-global-primary: /*[[accent]]*/ !important;
+  --desktop-color-ublue-05: color-mix(in srgb, /*[[accent]]*/ 82%, white) !important;
+  --desktop-color-ublue-06: /*[[accent]]*/ !important;
+  --desktop-color-ublue-07: color-mix(in srgb, /*[[accent]]*/ 82%, black) !important;
+  --ubnt-color-text-primary: /*[[text]]*/ !important;
+  --ubnt-color-text-secondary: /*[[text-muted]]*/ !important;
+  --ubnt-color-text-tertiary: /*[[text-muted]]*/ !important;
+  --ubnt-color-background-primary: transparent !important;
+  --ubnt-color-background-secondary: color-mix(in srgb, /*[[surface]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
+  --ubnt-color-background-tertiary: color-mix(in srgb, /*[[surface-raised]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
+  --ubnt-color-border-primary: /*[[border]]*/ !important;
+  --ubnt-color-border-secondary: /*[[border]]*/ !important;
+  --ubnt-color-border-tertiary: /*[[border]]*/ !important;
+  --main-panel-background-color: transparent !important;
+  --navigation-background-color: color-mix(in srgb, /*[[surface]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
+  --side-panel-background-color: color-mix(in srgb, /*[[surface]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
+  --side-panel-border-color: /*[[border]]*/ !important;
+  --side-panel-font-color: /*[[text]]*/ !important;
+  --header-panel-background-color: color-mix(in srgb, /*[[surface]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
+  --header-panel-border-color: /*[[border]]*/ !important;
+  --header-panel-font-color: /*[[text]]*/ !important;
+  --header-panel-global-font-color: /*[[text]]*/ !important;
+  --footer-panel-background-color: color-mix(in srgb, /*[[surface]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
+  --footer-panel-border-color: /*[[border]]*/ !important;
+  --footer-panel-font-color: /*[[text-muted]]*/ !important;
+  --card-title-color: /*[[text]]*/ !important;
+  --block-title-font-color: /*[[text]]*/ !important;
+  --block-section-font-color: /*[[text-muted]]*/ !important;
+  --block-row-font-color: /*[[text-muted]]*/ !important;
+  --label-primary-font-color: /*[[text]]*/ !important;
+  --label-secondary-font-color: /*[[text-muted]]*/ !important;
+  --button-primary-font-color: /*[[on-accent]]*/ !important;
+  --button-primary-background-color: /*[[accent]]*/ !important;
+  --button-primary-hover-background-color: color-mix(in srgb, /*[[accent]]*/ 84%, white) !important;
+  --button-primary-active-background-color: color-mix(in srgb, /*[[accent]]*/ 78%, black) !important;
+  --toggle-background-on-color: /*[[accent]]*/ !important;
+  --tab-item-font-color: /*[[text-muted]]*/ !important;
+  --tab-item-selected-font-color: /*[[accent]]*/ !important;
+  --table-font-color: /*[[text]]*/ !important;
+  --table-header-font-color: /*[[text]]*/ !important;
+  --table-body-cell-font-color: /*[[text]]*/ !important;
+  --modal-font-color: /*[[text]]*/ !important;
+  --modal-header-font-color: /*[[text]]*/ !important;
+  --dropdown-font-color: /*[[text]]*/ !important;
+  --popover-font-color: /*[[text]]*/ !important;
+  --tooltip-font-color: /*[[text]]*/ !important;
+  --modal-background-color: color-mix(in srgb, /*[[surface-raised]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
+  --dropdown-background-color: color-mix(in srgb, /*[[surface-raised]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
+  --popover-background-color: color-mix(in srgb, /*[[surface-raised]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
+  --tooltip-background-color: /*[[surface-raised]]*/ !important;
 }
 
-/* Photo and base gradient. Kept off the content stack so blur cannot smear the UI. */
+/* Faint geometric motif. The portrait pseudo paints above this. */
 html::before {
   content: "";
   position: fixed;
   z-index: -1;
-  inset: -80px;
-  pointer-events: none;
-  background-color: /*[[background]]*/;
-  background-image:
-    linear-gradient(
-      color-mix(in srgb, /*[[dim-color]]*/ calc(/*[[background-dim]]*/ * 100%), transparent),
-      color-mix(in srgb, /*[[dim-color]]*/ calc(/*[[background-dim]]*/ * 100%), transparent)
-    ),
-    /*[[background-image]]*/,
-    linear-gradient(165deg, /*[[background-2]]*/, /*[[background]]*/);
-  background-size: auto, cover, auto;
-  background-position: center, center, center;
-  background-repeat: no-repeat;
-  filter: blur(/*[[background-blur]]*/);
-}
-
-body {
-  min-height: 100%;
-  position: relative !important;
-  z-index: 0 !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  color: /*[[text]]*/ !important;
-}
-
-/* Character motif. Opacity is the Decorative motif switch (1 or 0). */
-body::before {
-  content: "";
-  position: fixed;
-  z-index: -1;
-  inset: -80px;
+  inset: 0;
   pointer-events: none;
   opacity: /*[[show-motif]]*/;
   background-image: __UAT_MOTIF__;
   background-repeat: no-repeat;
   background-position: center;
-  filter: blur(/*[[background-blur]]*/);
-}
-
-/* Top-edge motif. Clicks pass through. */
-body::after {
-  content: "";
-  position: fixed;
-  z-index: 2147483646;
-  pointer-events: none;
-  opacity: /*[[show-motif]]*/;
-  __UAT_EDGE__
+  background-attachment: fixed;
 }
 
 /*
- * Known UniFi tokens. Applied on the shells we can name so a wrapper that
- * redeclares :root tokens still inherits the theme, while a nested author
- * rule can still paint a one-off status color. body * carries the same
- * tokens with !important because the React shell often redefines them on
- * an inner theme node. That also flattens local uses of these exact names.
+ * Character art. contain + bottom-right keeps the whole figure in view
+ * instead of cropping it under the dashboard chart. A light dim wash sits
+ * on top of the picture only.
  */
-html,
-body,
-#root,
-#app,
-body * {
-  --ubnt-color-text-primary: /*[[text]]*/ !important;
-  --ubnt-color-text-secondary: /*[[text-muted]]*/ !important;
-  --ubnt-color-text-tertiary: /*[[text-muted]]*/ !important;
-  --ubnt-color-background-primary: /*[[background]]*/ !important;
-  --ubnt-color-background-secondary: /*[[surface]]*/ !important;
-  --ubnt-color-background-tertiary: /*[[surface-raised]]*/ !important;
-  --ubnt-color-border-primary: /*[[border]]*/ !important;
-  --ubnt-color-border-secondary: /*[[border]]*/ !important;
-  --ubnt-color-border-tertiary: /*[[border]]*/ !important;
-  --main-panel-background-color: transparent !important;
-  --navigation-background-color: /*[[surface]]*/ !important;
-  --navigation-icon-color: /*[[text-muted]]*/ !important;
-  --navigation-selected-icon-color: /*[[accent]]*/ !important;
-  --navigation-spacer-color: /*[[border]]*/ !important;
-  --header-panel-background-color: /*[[surface]]*/ !important;
-  --header-panel-border-color: /*[[border]]*/ !important;
-  --header-panel-font-color: /*[[text]]*/ !important;
-  --header-panel-global-background-color: /*[[surface-raised]]*/ !important;
-  --header-panel-global-font-color: /*[[text]]*/ !important;
-  --header-panel-tertiary-background-color: /*[[surface]]*/ !important;
-  --footer-panel-background-color: /*[[surface]]*/ !important;
-  --footer-panel-border-color: /*[[border]]*/ !important;
-  --footer-panel-font-color: /*[[text-muted]]*/ !important;
-  --side-panel-background-color: /*[[surface]]*/ !important;
-  --side-panel-border-color: /*[[border]]*/ !important;
-  --side-panel-font-color: /*[[text]]*/ !important;
-  --side-panel-sub-navigation-background-color: /*[[background]]*/ !important;
-  --button-primary-font-color: /*[[on-accent]]*/ !important;
-  --button-primary-background-color: /*[[accent]]*/ !important;
-  --button-primary-hover-background-color: color-mix(in srgb, /*[[accent]]*/ 84%, white) !important;
-  --button-primary-active-background-color: color-mix(in srgb, /*[[accent]]*/ 78%, black) !important;
-  --button-secondary-font-color: /*[[text]]*/ !important;
-  --button-secondary-background-color: /*[[surface-raised]]*/ !important;
-  --button-secondary-border-color: /*[[border]]*/ !important;
-  --button-secondary-hover-border-color: /*[[accent]]*/ !important;
-  --button-icon-color: /*[[text-muted]]*/ !important;
-  --button-hover-icon-color: /*[[text]]*/ !important;
-  --button-active-icon-color: /*[[accent]]*/ !important;
-  --dropdown-background-color: /*[[surface-raised]]*/ !important;
-  --dropdown-border-color: /*[[border]]*/ !important;
-  --dropdown-font-color: /*[[text]]*/ !important;
-  --dropdown-hover-font-color: /*[[accent]]*/ !important;
-  --modal-background-color: /*[[surface-raised]]*/ !important;
-  --modal-border-color: /*[[border]]*/ !important;
-  --modal-font-color: /*[[text]]*/ !important;
-  --modal-header-font-color: /*[[text]]*/ !important;
-  --modal-footer-font-color: /*[[text-muted]]*/ !important;
-  --popover-background-color: /*[[surface-raised]]*/ !important;
-  --popover-border-color: /*[[border]]*/ !important;
-  --popover-font-color: /*[[text]]*/ !important;
-  --popover-header-font-color: /*[[text]]*/ !important;
-  --tooltip-background-color: /*[[surface-raised]]*/ !important;
-  --tooltip-border-color: /*[[border]]*/ !important;
-  --tooltip-font-color: /*[[text]]*/ !important;
-  --card-title-color: /*[[text]]*/ !important;
-  --table-font-color: /*[[text]]*/ !important;
-  --table-header-font-color: /*[[text]]*/ !important;
-  --table-row-hover-background-color: color-mix(in srgb, /*[[accent]]*/ 16%, /*[[surface]]*/) !important;
-  --table-row-selected-background-color: color-mix(in srgb, /*[[accent]]*/ 24%, /*[[surface]]*/) !important;
-  --table-body-cell-border-color: /*[[border]]*/ !important;
-  --table-body-cell-font-color: /*[[text]]*/ !important;
-  --table-header-background-color: /*[[surface-raised]]*/ !important;
-  --tab-item-font-color: /*[[text-muted]]*/ !important;
-  --tab-item-selected-font-color: /*[[accent]]*/ !important;
-  --tab-item-hover-border-color: /*[[accent]]*/ !important;
-  --toggle-background-on-color: /*[[accent]]*/ !important;
-  --toggle-button-on-color: /*[[on-accent]]*/ !important;
-  --toggle-background-off-color: /*[[border]]*/ !important;
-  --toggle-button-off-color: /*[[text]]*/ !important;
-  --block-title-font-color: /*[[text]]*/ !important;
-  --block-section-font-color: /*[[text-muted]]*/ !important;
-  --block-row-font-color: /*[[text-muted]]*/ !important;
-  --block-row-divider-color: /*[[border]]*/ !important;
-  --block-hover-box-shadow: 0 0 0 1px /*[[accent]]*/ !important;
-  --block-selected-background-color: color-mix(in srgb, /*[[accent]]*/ 22%, transparent) !important;
-  --block-selected-border-color: /*[[accent]]*/ !important;
-  --chip-background-color: /*[[surface-raised]]*/ !important;
-  --chip-font-color: /*[[text]]*/ !important;
-  --toast-background-color: /*[[surface-raised]]*/ !important;
-  --toast-border-color: /*[[border]]*/ !important;
-  --toast-title-font-color: /*[[text]]*/ !important;
-  --toast-details-font-color: /*[[text-muted]]*/ !important;
-  --form-box-font-color: /*[[text]]*/ !important;
-  --form-box-border-color: /*[[border]]*/ !important;
-  --form-box-focus-font-color: /*[[text]]*/ !important;
-  --form-secondary-box-background-color: /*[[surface]]*/ !important;
-  --form-secondary-box-font-color: /*[[text]]*/ !important;
-  --form-select-font-color: /*[[text]]*/ !important;
-  --form-select-border-color: /*[[border]]*/ !important;
-  --label-primary-font-color: /*[[text]]*/ !important;
-  --label-secondary-font-color: /*[[text-muted]]*/ !important;
-  --header-action-color: /*[[text-muted]]*/ !important;
-  --icon-actionable-color: /*[[text-muted]]*/ !important;
-  --icon-actionable-hover-color: /*[[accent]]*/ !important;
-  --icon-text-color: /*[[text-muted]]*/ !important;
-  --icon-text-text-color: /*[[text-muted]]*/ !important;
-  --icon-text-header-text-color: /*[[text]]*/ !important;
-  --accordion-border-color: /*[[border]]*/ !important;
-  --status-bar-background-color: /*[[surface-raised]]*/ !important;
-  --filter-item-font-color: /*[[text]]*/ !important;
+html::after {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(
+      color-mix(in srgb, /*[[dim-color]]*/ calc(/*[[background-dim]]*/ * 100%), transparent),
+      color-mix(in srgb, /*[[dim-color]]*/ calc(/*[[background-dim]]*/ * 100%), transparent)
+    ),
+    /*[[background-image]]*/;
+  background-repeat: no-repeat;
+  background-size: auto, contain;
+  background-position: center center, right 24px bottom 24px;
+  background-attachment: fixed, fixed;
+  filter: blur(/*[[background-blur]]*/);
 }
 
-/* Let the wallpaper show through the app shell. Opaque cards are restated below. */
-#root,
-#app,
-body > div:first-child,
-main,
-[role="main"] {
+body {
+  min-height: 100%;
+  margin: 0;
   background-color: transparent !important;
   background-image: none !important;
   color: /*[[text]]*/;
 }
 
+/* 2px accent only. The old sawtooth / petal / tick strips covered the chrome. */
+body::after {
+  content: "";
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 2px;
+  pointer-events: none;
+  opacity: /*[[show-motif]]*/;
+  background: /*[[accent]]*/;
+}
+
+#root,
+#app,
+main,
+[role="main"] {
+  background-color: transparent !important;
+  color: /*[[text]]*/;
+}
+
+/*
+ * Sidebar and header stay translucent without backdrop-filter. A filter on
+ * the sidebar was enough to stop the UDM product <img> from painting.
+ */
 nav,
 aside,
 header,
 footer,
 [role="navigation"],
-[role="banner"],
-[class*="sidebar" i],
-[class*="sidenav" i],
-[class*="side-nav" i],
-[class*="navigation" i],
-[class*="navbar" i],
-[class*="nav-bar" i],
-[class*="topbar" i],
-[class*="top-bar" i],
-[class*="toolbar" i],
-[class*="shell" i] {
+[role="banner"] {
   background-color: color-mix(in srgb, /*[[surface]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
   color: /*[[text]]*/;
   border-color: /*[[border]]*/;
 }
 
-[class*="header" i],
-[class*="layout" i] {
-  color: /*[[text]]*/;
-  border-color: /*[[border]]*/;
-}
-
-[class*="card" i],
-[class*="panel" i],
-[class*="widget" i],
-[class*="tile" i],
-[class*="sheet" i],
-[class*="drawer" i],
-[class*="modal" i],
-[class*="dialog" i],
-[class*="dropdown" i],
-[class*="popover" i],
-[class*="tooltip" i],
-[class*="table" i],
-[role="dialog"],
-[role="alertdialog"],
-[role="menu"],
-[role="listbox"],
-[role="tooltip"],
+section,
+article,
 dialog,
-.modular,
-.modulesDock--permanent,
-.appTable,
-[class*="appTable"],
-.ubntPanelContent,
-[class*="ubntPanel"] {
+[role="dialog"],
+[role="alertdialog"] {
   background-color: color-mix(in srgb, /*[[surface]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
   color: /*[[text]]*/;
   border-color: /*[[border]]*/;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
-[class*="modal" i],
-[class*="dialog" i],
-[class*="dropdown" i],
-[class*="popover" i],
-[class*="tooltip" i],
+dialog,
 [role="dialog"],
-[role="alertdialog"],
-[role="menu"],
-[role="listbox"],
-[role="tooltip"],
-dialog {
-  background-color: /*[[surface-raised]]*/ !important;
+[role="alertdialog"] {
+  background-color: color-mix(in srgb, /*[[surface-raised]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
 }
 
-[class*="theme-light" i],
-[class*="themeLight"],
-[class*="--light"],
-[class*="is-light" i],
-[class*="isLight"] {
-  background-color: color-mix(in srgb, /*[[surface]]*/ calc(/*[[panel-opacity]]*/ * 100%), transparent) !important;
-  color: /*[[text]]*/;
-}
-
-/* Legacy chart labels from the public UniFi dark-style gist. Canvas charts are unaffected. */
+/* Legacy chart text. These class names are not svg/img/canvas. */
 .unifiDonutChartLabel__main,
 .unifiDonutChartLabel__secondary,
 .unifiLineChart__axis text,
@@ -305,109 +201,8 @@ dialog {
   stroke: /*[[border]]*/;
 }
 
-.appSubHeading,
-.modularSubHeading,
-.modularNavigationTitle,
-[class*="card-title" i],
-[class*="cardTitle"],
-[class*="section-title" i],
-[class*="sectionTitle"] {
-  color: /*[[text]]*/;
-}
-
-[aria-selected="true"],
-[aria-current="page"],
-[aria-current="true"],
-[role="tab"][aria-selected="true"] {
-  color: /*[[accent]]*/ !important;
-  box-shadow: inset 3px 0 0 /*[[accent]]*/ !important;
-}
-
-[role="tab"][aria-selected="true"] {
-  box-shadow: inset 0 -2px 0 /*[[accent]]*/ !important;
-}
-
 a:hover {
   text-decoration-color: /*[[accent]]*/;
-}
-
-button[class*="primary" i],
-[role="button"][class*="primary" i],
-a[class*="primary" i],
-[class*="btn-primary" i],
-[class*="btnPrimary"],
-[class*="button--primary" i],
-[class*="buttonPrimary" i],
-[class*="ButtonPrimary"],
-[class*="primaryButton" i],
-[class*="PrimaryButton"],
-.appButton--primary,
-.appMainButton--primary {
-  background-color: /*[[accent]]*/ !important;
-  background-image: none !important;
-  border-color: transparent !important;
-  color: /*[[on-accent]]*/ !important;
-}
-
-button[class*="primary" i]:hover,
-[role="button"][class*="primary" i]:hover,
-.appButton--primary:hover {
-  background-color: color-mix(in srgb, /*[[accent]]*/ 84%, white) !important;
-}
-
-button[class*="secondary" i],
-[role="button"][class*="secondary" i],
-[class*="button--secondary" i],
-[class*="secondaryButton" i],
-.appButton--secondary {
-  background-color: transparent !important;
-  border-color: /*[[border]]*/ !important;
-  color: /*[[text]]*/ !important;
-}
-
-button[class*="danger" i],
-button[class*="destructive" i],
-[role="button"][class*="danger" i],
-[role="button"][class*="destructive" i] {
-  background-color: #b4233c !important;
-  border-color: transparent !important;
-  color: #fff7f8 !important;
-}
-
-button[class*="success" i],
-[role="button"][class*="success" i] {
-  background-color: #1f8a4c !important;
-  border-color: transparent !important;
-  color: #f4fff8 !important;
-}
-
-input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]),
-textarea,
-select {
-  background-color: /*[[surface-raised]]*/ !important;
-  color: /*[[text]]*/ !important;
-  border-color: /*[[border]]*/ !important;
-  caret-color: /*[[accent]]*/;
-}
-
-input::placeholder,
-textarea::placeholder {
-  color: /*[[text-muted]]*/ !important;
-  opacity: 1;
-}
-
-input:focus,
-textarea:focus,
-select:focus,
-input:focus-visible,
-textarea:focus-visible,
-select:focus-visible,
-button:focus-visible,
-a:focus-visible,
-[role="button"]:focus-visible,
-[role="tab"]:focus-visible {
-  outline: 2px solid /*[[accent]]*/ !important;
-  outline-offset: 2px;
 }
 
 input[type="checkbox"],
@@ -417,81 +212,13 @@ progress {
   accent-color: /*[[accent]]*/;
 }
 
-option,
-optgroup {
-  background-color: /*[[surface-raised]]*/;
-  color: /*[[text]]*/;
-}
-
-table {
-  border-color: /*[[border]]*/;
-}
-
-th {
-  background-color: /*[[surface-raised]]*/ !important;
-  color: /*[[text]]*/ !important;
-  border-color: /*[[border]]*/ !important;
-}
-
-td {
-  border-color: /*[[border]]*/;
-  color: /*[[text]]*/;
-}
-
-tr:hover td {
-  background-color: color-mix(in srgb, /*[[accent]]*/ 12%, transparent);
-}
-
-hr {
-  border-color: /*[[border]]*/ !important;
-  background-color: /*[[border]]*/ !important;
-}
-
-code,
-pre,
-kbd,
-samp {
-  background-color: /*[[surface-raised]]*/ !important;
-  color: /*[[accent-2]]*/ !important;
-  border-color: /*[[border]]*/;
-}
-
 ::selection {
   background: /*[[accent]]*/;
   color: /*[[on-accent]]*/;
 }
 
-* {
-  scrollbar-color: /*[[accent-2]]*/ /*[[surface]]*/;
-}
-
-*::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-
-*::-webkit-scrollbar-track {
-  background: /*[[surface]]*/;
-}
-
-*::-webkit-scrollbar-thumb {
-  background: /*[[accent-2]]*/;
-  border-radius: 99px;
-}
-
-dialog::backdrop,
-::backdrop {
-  background: color-mix(in srgb, /*[[background]]*/ 35%, #000) !important;
-}
-
-[class*="login" i][class*="card" i],
-[class*="login" i][class*="panel" i],
-[class*="login" i][class*="box" i],
-[class*="auth" i][class*="card" i],
-[class*="auth" i][class*="panel" i] {
-  background-color: /*[[surface-raised]]*/ !important;
-  color: /*[[text]]*/ !important;
-  border-color: /*[[border]]*/ !important;
+dialog::backdrop {
+  background: color-mix(in srgb, /*[[background]]*/ 45%, transparent);
 }
 
 @media (prefers-reduced-transparency: reduce) {
@@ -501,16 +228,13 @@ dialog::backdrop,
   footer,
   [role="navigation"],
   [role="banner"],
-  [class*="sidebar" i],
-  [class*="sidenav" i],
-  [class*="navigation" i],
-  [class*="card" i],
-  [class*="panel" i],
-  [class*="widget" i],
-  [class*="modal" i],
-  [class*="dialog" i],
-  .modular,
-  .appTable {
+  section,
+  article,
+  dialog,
+  [role="dialog"],
+  [role="alertdialog"] {
     background-color: /*[[surface]]*/ !important;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 }

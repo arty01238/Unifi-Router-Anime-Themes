@@ -21,15 +21,15 @@
   <rect x="40" y="36" width="800" height="448" rx="16" fill="none" stroke="#6E4456"/>
   <rect x="40" y="36" width="72" height="448" fill="#160C12"/>
   <circle cx="76" cy="78" r="8" fill="#FF8FB7"/>
-  <circle cx="76" cy="114" r="8" fill="#D2A8B8"/>
-  <circle cx="76" cy="150" r="8" fill="#D2A8B8"/>
+  <circle cx="76" cy="114" r="8" fill="#F3D5E0"/>
+  <circle cx="76" cy="150" r="8" fill="#F3D5E0"/>
   <circle cx="76" cy="186" r="8" fill="#E6C27A"/>
   <rect x="128" y="52" width="220" height="14" rx="4" fill="#FFE9F1" opacity="0.9"/>
-  <rect x="128" y="74" width="140" height="8" rx="3" fill="#D2A8B8"/>
+  <rect x="128" y="74" width="140" height="8" rx="3" fill="#F3D5E0"/>
   <rect x="148" y="120" width="200" height="110" rx="10" fill="#3C2030" stroke="#6E4456"/>
   <rect x="368" y="120" width="200" height="110" rx="10" fill="#3C2030" stroke="#6E4456"/>
   <rect x="588" y="120" width="220" height="110" rx="10" fill="#3C2030" stroke="#6E4456"/>
-  <rect x="168" y="148" width="90" height="8" rx="3" fill="#D2A8B8"/>
+  <rect x="168" y="148" width="90" height="8" rx="3" fill="#F3D5E0"/>
   <rect x="168" y="168" width="120" height="18" rx="4" fill="#FFE9F1"/>
   <rect x="388" y="168" width="70" height="36" rx="4" fill="#FF8FB7"/>
   <rect x="466" y="184" width="70" height="20" rx="4" fill="#E6C27A"/>
@@ -44,7 +44,7 @@
   <rect x="168" y="360" width="420" height="8" rx="3" fill="#6E4456"/>
   <rect x="148" y="430" width="120" height="32" rx="8" fill="#FF8FB7"/>
   <rect x="280" y="430" width="120" height="32" rx="8" fill="none" stroke="#6E4456"/>
-  <text x="96" y="492" fill="#D2A8B8" font-family="ui-sans-serif, sans-serif" font-size="13">Puella Magi Madoka Magica</text>
+  <text x="96" y="492" fill="#F3D5E0" font-family="ui-sans-serif, sans-serif" font-size="13">Puella Magi Madoka Magica</text>
   <text x="400" y="492" fill="#FFE9F1" font-family="ui-sans-serif, sans-serif" font-size="16" font-weight="700">Madoka Kaname · Dark</text>
   <rect x="96" y="470" width="28" height="16" rx="3" fill="#160C12"/>
   <rect x="132" y="470" width="28" height="16" rx="3" fill="#2A1520"/>

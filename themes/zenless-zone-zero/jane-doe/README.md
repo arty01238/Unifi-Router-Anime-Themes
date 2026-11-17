@@ -20,7 +20,7 @@ To change it, open Stylus → the style's gear icon and set **Background image**
 
 ## Motif
 
-**Gold pinstripe.** A thin violet-gold-pink bar runs along the top. The wallpaper is a charcoal field with a faint gold diagonal pinstripe and a violet corner glow. Geometric only.
+**Gold pinstripe.** A 2px accent line sits on the top edge. Behind the portrait, a faint gold pinstripe and a violet glow sit on charcoal. The portrait is anchored bottom-right.
 
 ## Palette
 
@@ -38,14 +38,14 @@ Charcoal purple, a gold hairline, and a pink glint. Sleek night-market lighting,
 | Raised panels | `#2A2236` |
 | Borders | `#4C3E62` |
 | Text | `#F7F3EC` |
-| Muted text | `#B7A9C6` |
+| Muted text | `#E4DCEC` |
 | Accent | `#B07CFF` |
 | Secondary accent | `#E2B657` |
 | Highlight | `#FF7AB6` |
 | Text on accent | `#1A1024` |
 | Dim color | `#000000` |
 
-Dim default `0.3`. Panel opacity default `0.86`. Color scheme `dark`.
+Dim default `0.12`. Panel opacity default `0.75`. Color scheme `dark`.
 
 ## Files
 
